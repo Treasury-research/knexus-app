@@ -1,6 +1,7 @@
 import { CreateBucket } from './create';
 import { DeleteBucket } from './delete';
 import { BucketInfo } from './info';
+import { BucketList } from './list';
 
 export const Bucket = () => {
   return (
@@ -16,6 +17,10 @@ export const Bucket = () => {
       <div style={{ marginTop: 10 }} />
 
       <BucketInfo />
+
+      <div style={{ marginTop: 10 }} />
+
+      <BucketList />
     </div>
   );
 };
