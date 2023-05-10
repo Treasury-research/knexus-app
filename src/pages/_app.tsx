@@ -1,4 +1,5 @@
 import '@/styles/globals.css';
+import '@/styles/style.css';
 import type { AppProps } from 'next/app';
 import { createClient, WagmiConfig } from 'wagmi';
 import {
@@ -7,6 +8,8 @@ import {
   trustWalletConnector,
   webSocketProvider,
 } from '@/config';
+import Navbar from '@/components/Navbar';
+import { useRouter } from 'next/router';
 
 const wagmiClient = createClient({
   autoConnect: true,
@@ -16,9 +19,14 @@ const wagmiClient = createClient({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
   return (
     <WagmiConfig client={wagmiClient}>
-      <Component {...pageProps} />
+      { router.pathname === '/login' ? <div className="bgImg loginPageBg"></div> : null }
+      <main>
+        <Navbar/>
+        <Component {...pageProps} />
+      </main>
     </WagmiConfig>
   );
 }

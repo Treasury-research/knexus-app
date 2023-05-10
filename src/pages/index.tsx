@@ -17,6 +17,7 @@ export default function Home() {
           justifyContent: 'center',
           alignItems: 'center',
           height: '100vh',
+          color: '#fff'
         }}
       >
         <li>
@@ -28,6 +29,11 @@ export default function Home() {
         <li>
           <Link href="/rpc" color="#900" style={{ fontSize: 30 }}>
             rpc demo
+          </Link>
+        </li>
+        <li>
+          <Link href="/login" color="#900" style={{ fontSize: 30 }}>
+            interface demo
           </Link>
         </li>
       </div>
