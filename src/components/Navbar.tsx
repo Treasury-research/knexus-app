@@ -34,7 +34,7 @@ export default function Navbar(props: any) {
 				<div
 					className="mx-5 relative py-3 cursor-pointer"
 				>
-					Bucket
+					<Link href="/bucket">Bucket</Link>
 				</div>
 				{/* <div className="mx-3">Use Cases</div> */}
 				<div className="mx-3">Publish</div>
