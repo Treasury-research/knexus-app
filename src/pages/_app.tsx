@@ -4,6 +4,7 @@ import type { AppProps } from 'next/app'
 import customTheme from "@/styles/theme"
 import localFont from "@next/font/local"
 import { Jura } from "@next/font/google"
+import { ConfigProvider, theme } from "antd"
 import { createClient, WagmiConfig } from 'wagmi'
 
 import {
@@ -61,26 +62,32 @@ const nasalization = localFont({
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   return (
-    <ChakraProvider theme={customTheme}>
-      <WagmiConfig client={wagmiClient}>
-        { router.pathname === '/login' ? <div className="bgImg loginPageBg"></div> : null }
-        <style jsx global>
-					{`
-          :root {
-            --font-jura: ${jura.style.fontFamily};
-            --font-swiss: ${swiss721.style.fontFamily}
-            --font-swiss721md: ${swiss721md.style.fontFamily};
-						--font-swiss721blk: ${swiss721blk.style.fontFamily};
-            --font-excluded: ${excluded.style.fontFamily};
-            --font-nasalization: ${nasalization.style.fontFamily};
-          }
-        `}
-				</style>
-        <main className={`font-swiss text-white`}>
-          <Navbar/>
-          <Component {...pageProps} />
-        </main>
-      </WagmiConfig>
-    </ChakraProvider>
+    <ConfigProvider
+				theme={{
+					algorithm: theme.darkAlgorithm,
+				}}
+			>
+      <ChakraProvider theme={customTheme}>
+        <WagmiConfig client={wagmiClient}>
+          { router.pathname === '/login' ? <div className="bgImg loginPageBg"></div> : null }
+          <style jsx global>
+            {`
+            :root {
+              --font-jura: ${jura.style.fontFamily};
+              --font-swiss: ${swiss721.style.fontFamily}
+              --font-swiss721md: ${swiss721md.style.fontFamily};
+              --font-swiss721blk: ${swiss721blk.style.fontFamily};
+              --font-excluded: ${excluded.style.fontFamily};
+              --font-nasalization: ${nasalization.style.fontFamily};
+            }
+          `}
+          </style>
+          <main className={`font-swiss text-white`}>
+            <Navbar/>
+            <Component {...pageProps} />
+          </main>
+        </WagmiConfig>
+      </ChakraProvider>
+    </ConfigProvider>
   );
 }
