@@ -79,8 +79,8 @@ export default function Home() {
           <div className='flex justify-end'>
             <Space size="large">
               { record.children ? <a href="">Upload</a> : null }
-              <a href="">Upload</a>
-              <a href="">Upload</a>
+              <a href="">Bind Group</a>
+              <a href="">Download</a>
             </Space>
           </div>
         )
@@ -130,7 +130,7 @@ export default function Home() {
             >
               Download
             </Button>
-            <Button variant="grayPrimary" disabled={true} fontSize="sm" paddingX={6} color={bucketName.length ? "#fff" : "#999" }
+            <Button variant="grayPrimary" disabled fontSize="sm" paddingX={6} color={bucketName.length ? "#fff" : "#999" }
               className="!mt-[10px] h-[35px] leading-3 mr-4"onClick={handleSubmit}
             >
               Upload From File
