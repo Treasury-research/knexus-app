@@ -21,3 +21,13 @@
 .loginPageBg {
 	background-image: url("../../public/images/TF-BG.svg");
 }
+
+.ant-menu-title-content{
+  color: #fff !important;
+}
+.ant-menu-item-selected .ant-menu-title-content{
+  color: #BBE7E6 !important;
+}
+.ant-menu-submenu-arrow{
+  color: #BBE7E6 !important;
+}
