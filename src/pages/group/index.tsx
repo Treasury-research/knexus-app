@@ -18,10 +18,11 @@ export default function Group() {
   interface DataType {
     name: string;
     id: string;
+    type: string;
     description: string;
     children?: DataType[];
   }
-  const columns: ColumnsType<DataType> = [
+  const columns: any = [
     {
       title: 'Name',
       dataIndex: 'name',
@@ -36,12 +37,13 @@ export default function Group() {
       title: '操作',
       dataIndex: 'options',
       key: 'options',
-      render: (text, record) => {
+      render: (text: any, record: any) => {
         console.log(record);
         return (
           <div className='flex justify-end'>
             <Space size="large" className='mr-4'>
-              { record.children && !record.children.length ?
+              { 
+                record.type === "data" ?
                 <a onClick={() => setPublishModalOpen(true)}>Publish</a>:
                 null
               }
@@ -55,10 +57,11 @@ export default function Group() {
    // create group
 	const handleSubmit = async () => {
     setGroups({
-      id: uuidv4(),
+      key: uuidv4(),
       name: groupName,
       description: '',
-      children: []
+      children: [],
+      type:'group'
     })
     setGroupName("")
     setGroupModalOpen(false);
@@ -116,7 +119,7 @@ export default function Group() {
                     }}
                     dataSource={[item]}
                   />
-                  {!item.children.length ? <div className='bg-[#1C2222]'>
+                  {!item.children ? <div className='bg-[#1C2222]'>
                     <Empty style={{marginBlock: 0, padding: '20px 0'}} image={Empty.PRESENTED_IMAGE_SIMPLE} />
                   </div>: null}
                 </div>
