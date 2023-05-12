@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useAccount, useConnect } from "wagmi";
 import Link from "next/link";
-import { metaMaskWalletConnector } from '@/config';
-import { Box, Flex, HStack, Text } from "@chakra-ui/react";
-
 import Logo from "../../public/images/TF-final-logo-5.png";
+import ConnectWallet from "./ConnectWallet";
 
 function helperTitle(pathname: string): string | null {
 	if (pathname == "/accountMonitor") return "Account";
@@ -16,14 +13,8 @@ function helperTitle(pathname: string): string | null {
 
 export default function Navbar(props: any) {
 	const router = useRouter();
-	const {address} = useAccount();
 	const title = helperTitle(router.pathname);
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-
-	const { connect } = useConnect({
-		// connector: trustWalletConnector,
-		connector: metaMaskWalletConnector,
-	  });
 
 	return (
 		<div
@@ -61,11 +52,7 @@ export default function Navbar(props: any) {
 						</div>
 					) : null}
 					<div className="mx-3 relative">
-						{ address ? <MenuDropdown>
-							<ConnectWallet />
-						</MenuDropdown>
-						: <ConnectWallet />
-						}
+						<ConnectWallet />
 					</div>
 				</div>
 			)}

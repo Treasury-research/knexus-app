@@ -37,10 +37,10 @@ export default function Home() {
   )
 
   useEffect(() => {
-	if(address){
-		router.push('/home');
-	}
-	  }, [address])
+		if(address){
+			router.replace('/home');
+		}
+	}, [address])
   
 	return (
 		<>
