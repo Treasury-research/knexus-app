@@ -37,8 +37,12 @@ export default function Navbar(props: any) {
 					<Link href="/bucket">Bucket</Link>
 				</div>
 				{/* <div className="mx-3">Use Cases</div> */}
-				<div className="mx-3">Publish</div>
-				<div className="mx-3">Data Market</div>
+				<div className="mx-3">
+					<Link href="/group">Grounp</Link>
+				</div>
+				<div className="mx-3">
+					<Link href="/dataMarket">Data Market</Link>
+				</div>
 			</div>
 			{/* { // 显示钱包部分 } */}
 			{router.pathname !== "/" && (
