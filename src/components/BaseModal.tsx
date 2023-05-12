@@ -50,7 +50,7 @@ export const BaseModal: React.FC<BaseModalProps> = (props) => {
 					mt="-7px"
 					mr="-11px"
 				/>
-				<ModalBody pb={6}>{children}</ModalBody>
+				<ModalBody pb={6} className="text-[#fff]">{children}</ModalBody>
 			</ModalContent>
 		</Modal>
 	);

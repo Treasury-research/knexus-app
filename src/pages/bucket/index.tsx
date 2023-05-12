@@ -102,7 +102,7 @@ export default function Home() {
 
 
   interface DataType {
-    key: React.ReactNode;
+    key: string;
     name: string;
     description: string;
     children?: DataType[];
@@ -188,17 +188,17 @@ export default function Home() {
               >
                 Create Bucket
               </Button>
-              <Button variant="grayPrimary" fontSize="sm" paddingX={6} color={bucketName.length ? "#fff" : "#999" }
+              <Button variant="grayPrimary" isDisabled={true} fontSize="sm" paddingX={6} color={bucketName.length ? "#fff" : "#999" }
                 className="!mt-[10px] h-[35px] leading-3 mr-4" onClick={() => setGroupModalOpen(true)}
               >
                 Bind Group
               </Button>
-              <Button variant="grayPrimary" fontSize="sm" paddingX={6} color={bucketName.length ? "#fff" : "#999" }
+              <Button variant="grayPrimary" isDisabled={true} fontSize="sm" paddingX={6} color={bucketName.length ? "#fff" : "#999" }
                 className="!mt-[10px] h-[35px] leading-3 mr-4" onClick={handleSubmit}
               >
                 Download
               </Button>
-              <Button variant="grayPrimary" disabled fontSize="sm" paddingX={6} color={bucketName.length ? "#fff" : "#999" }
+              <Button variant="grayPrimary" isDisabled={true}  fontSize="sm" paddingX={6} color={bucketName.length ? "#fff" : "#999" }
                 className="!mt-[10px] h-[35px] leading-3 mr-4" onClick={handleSubmit}
               >
                 Upload From File
@@ -215,7 +215,6 @@ export default function Home() {
                     expandable={{ 
                       defaultExpandAllRows: true,
                     }}
-                    rowSelection={{ ...rowSelection, checkStrictly }}
                     dataSource={[item]}
                   />
                   {!item.children ? <div className='bg-[#1C2222]'>
