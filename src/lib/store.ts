@@ -8,7 +8,9 @@ interface IBucket {
 }
 interface IGroup {
 	name: string,
-	id: string
+	id: string,
+	description: string,
+	children: [] | IGroup[]
 }
 
 interface AppState {

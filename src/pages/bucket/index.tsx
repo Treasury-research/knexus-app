@@ -21,71 +21,52 @@ export default function Home() {
   const [checkStrictly, setCheckStrictly] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 	const [bucketDatas, setBucketDatas] = useState([
-    { key: uuidv4(), name: 'data', description: '',
-    children: [
-        { name: 'data', key: uuidv4(), description: 'data des' },
-        { name: 'data2', key: uuidv4(), description: 'data des' },
-        { name: 'data3', key: uuidv4(), description: 'data des' },
-        { name: 'data4', key: uuidv4(), description: 'data des' },
-        { name: 'data5', key: uuidv4(), description: 'data des' },
+    { key: uuidv4(), name: 'data', description: '', type: 'bucket',
+      children: [
+        { name: 'data', key: uuidv4(), description: 'data des', type: 'data' },
+        { name: 'data2', key: uuidv4(), description: 'data des', type: 'data' },
+        { name: 'data3', key: uuidv4(), description: 'data des', type: 'data' },
+        { name: 'data4', key: uuidv4(), description: 'data des', type: 'data' },
+        { name: 'data5', key: uuidv4(), description: 'data des', type: 'data' },
       ]
     },
-    { key: uuidv4(), name: 'data', description: '',
-    children: [
-        { name: 'data', key: uuidv4(), description: 'data des' },
-        { name: 'data2', key: uuidv4(), description: 'data des' },
-        { name: 'data3', key: uuidv4(), description: 'data des' },
-        { name: 'data4', key: uuidv4(), description: 'data des' },
-        { name: 'data5', key: uuidv4(), description: 'data des' },
+    { key: uuidv4(), name: 'data', description: '', type: 'bucket',
+      children: [
+        { name: 'data', key: uuidv4(), description: 'data des', type: 'data' },
+        { name: 'data2', key: uuidv4(), description: 'data des', type: 'data' },
+        { name: 'data3', key: uuidv4(), description: 'data des', type: 'data' },
+        { name: 'data4', key: uuidv4(), description: 'data des', type: 'data' },
+        { name: 'data5', key: uuidv4(), description: 'data des', type: 'data' },
       ]
     },
-    { key: uuidv4(), name: 'data', description: '',
-    children: [
-        { name: 'data', key: uuidv4(), description: 'data des' },
-        { name: 'data2', key: uuidv4(), description: 'data des' },
-        { name: 'data3', key: uuidv4(), description: 'data des' },
-        { name: 'data4', key: uuidv4(), description: 'data des' },
-        { name: 'data5', key: uuidv4(), description: 'data des' },
+    { key: uuidv4(), name: 'data', description: '', type: 'bucket',
+      children: [
+        { name: 'data', key: uuidv4(), description: 'data des', type: 'data' },
+        { name: 'data2', key: uuidv4(), description: 'data des', type: 'data' },
+        { name: 'data3', key: uuidv4(), description: 'data des', type: 'data' },
+        { name: 'data4', key: uuidv4(), description: 'data des', type: 'data' },
+        { name: 'data5', key: uuidv4(), description: 'data des', type: 'data' },
       ]
     },
-    { key: uuidv4(), name: 'data', description: '',
-    children: [
-        { name: 'data', key: uuidv4(), description: 'data des' },
-        { name: 'data2', key: uuidv4(), description: 'data des' },
-        { name: 'data3', key: uuidv4(), description: 'data des' },
-        { name: 'data4', key: uuidv4(), description: 'data des' },
-        { name: 'data5', key: uuidv4(), description: 'data des' },
+    { key: uuidv4(), name: 'data', description: '', type: 'bucket',
+      children: [
+        { name: 'data', key: uuidv4(), description: 'data des', type: 'data' },
+        { name: 'data2', key: uuidv4(), description: 'data des', type: 'data' },
+        { name: 'data3', key: uuidv4(), description: 'data des', type: 'data' },
+        { name: 'data4', key: uuidv4(), description: 'data des', type: 'data' },
+        { name: 'data5', key: uuidv4(), description: 'data des', type: 'data' },
       ]
     },
-    { key: uuidv4(), name: 'data', description: '',
-    children: [
-        { name: 'data', key: uuidv4(), description: 'data des' },
-        { name: 'data2', key: uuidv4(), description: 'data des' },
-        { name: 'data3', key: uuidv4(), description: 'data des' },
-        { name: 'data4', key: uuidv4(), description: 'data des' },
-        { name: 'data5', key: uuidv4(), description: 'data des' },
+    { key: uuidv4(), name: 'data', description: '', type: 'bucket',
+      children: [
+        { name: 'data', key: uuidv4(), description: 'data des', type: 'data' },
+        { name: 'data2', key: uuidv4(), description: 'data des', type: 'data' },
+        { name: 'data3', key: uuidv4(), description: 'data des', type: 'data' },
+        { name: 'data4', key: uuidv4(), description: 'data des', type: 'data' },
+        { name: 'data5', key: uuidv4(), description: 'data des', type: 'data' },
       ]
     },
-    { key: uuidv4(), name: 'data', description: '',
-    children: [
-        { name: 'data', key: uuidv4(), description: 'data des' },
-        { name: 'data2', key: uuidv4(), description: 'data des' },
-        { name: 'data3', key: uuidv4(), description: 'data des' },
-        { name: 'data4', key: uuidv4(), description: 'data des' },
-        { name: 'data5', key: uuidv4(), description: 'data des' },
-      ]
-    },
-    { key: uuidv4(), name: 'data', description: '',
-    children: [
-        { name: 'data', key: uuidv4(), description: 'data des' },
-        { name: 'data2', key: uuidv4(), description: 'data des' },
-        { name: 'data3', key: uuidv4(), description: 'data des' },
-        { name: 'data4', key: uuidv4(), description: 'data des' },
-        { name: 'data5', key: uuidv4(), description: 'data des' },
-      ]
-    },
-    { key: uuidv4(), name: 'bucket2', description: '',
-    }
+    { key: uuidv4(), name: 'bucket2', description: '', type: 'bucket', }
   ])
   // create bucket
 	const handleSubmit = async () => { 
@@ -109,6 +90,7 @@ export default function Home() {
     key: string;
     name: string;
     description: string;
+    type: string;
     children?: DataType[];
   }
 
@@ -148,10 +130,14 @@ export default function Home() {
         console.log(record);
         return (
           <div className='flex justify-end'>
-            <Space size="large">
-              { record.children ? <a href="">Upload</a> : null }
-              <a onClick={() => setGroupModalOpen(true)}>Bind Group</a>
-              <a href="">Download</a>
+            <Space size="large" className='mr-4'>
+              { record.type === "bucket" ? <a href="">Upload</a> : null }
+              { record.type === "data" ? <>
+                <a onClick={() => setGroupModalOpen(true)}>Bind Group</a>
+                <a href="">Download</a></> : 
+                !record.children ? null :
+                <><a onClick={() => setGroupModalOpen(true)}>Bind Group</a><a href="">Download</a></>
+              }
             </Space>
           </div>
         )
