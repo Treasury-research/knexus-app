@@ -97,12 +97,12 @@ export default function Home() {
         return (
           <div className='flex justify-end'>
             <Space size="large" className='mr-4'>
-              { record.type === "bucket" ? <a href="">Upload</a> : null }
+              { record.type === "bucket" ? <a className='text-[#BBE7E6] font-bold'>Upload</a> : null }
               { record.type === "data" ? <>
-                <a onClick={() => setGroupModalOpen(true)}>Bind Group</a>
-                <a href="">Download</a></> : 
+                <a className='text-[#BBE7E6] font-bold' onClick={() => setGroupModalOpen(true)}>Bind Group</a>
+                <a className='text-[#BBE7E6] font-bold' href="">Download</a></> : 
                 !record.children ? null :
-                <><a onClick={() => setGroupModalOpen(true)}>Bind Group</a><a href="">Download</a></>
+                <><a className='text-[#BBE7E6] font-bold' onClick={() => setGroupModalOpen(true)}>Bind Group</a><a href="">Download</a></>
               }
             </Space>
           </div>

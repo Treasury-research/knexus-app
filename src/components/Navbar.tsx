@@ -33,14 +33,14 @@ export default function Navbar(props: any) {
 				<div
 					className="mx-5 relative py-3 cursor-pointer"
 				>
-					<Link href="/bucket">Bucket</Link>
+					<Link href="/bucket" className={`${router.pathname === "/bucket" ? "text-[#BBE7E6]" : ""}`}>Bucket</Link>
 				</div>
 				{/* <div className="mx-3">Use Cases</div> */}
 				<div className="mx-3">
-					<Link href="/group">Group</Link>
+					<Link href="/group" className={`${router.pathname === "/group" ? "text-[#BBE7E6]" : ""}`}>Group</Link>
 				</div>
 				<div className="mx-3">
-					<Link href="/dataMarket">Data Market</Link>
+					<Link href="/dataMarket" className={`${router.pathname === "/dataMarket" ? "text-[#BBE7E6]" : ""}`}>Data Market</Link>
 				</div>
 			</div>
 			{/* { // 显示钱包部分 } */}

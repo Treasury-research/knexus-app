@@ -80,10 +80,19 @@ const columnsSubtree: (action: "Buy" | "Unlist" | "Download") => ColumnsType<Dat
               okText="Yes"
               cancelText="Cancel"
             >
-            <a type="link">{action}</a>
+            <a className='text-[#BBE7E6] font-bold'>{action}</a>
           </Popconfirm>}
-          { action === "Download" && <a>{action}</a>}
-          { action === "Unlist" && <a>{action}</a>}
+          { action === "Download" && <a className='text-[#BBE7E6] font-bold'>{action}</a>}
+          { action === "Unlist" && <Popconfirm
+            title="Buy"
+            description="Confirm to unlist the data?"
+            onConfirm={() => handleBuy(record.key)}
+            onCancel={() => {}}
+            okText="Yes"
+            cancelText="Cancel"
+          >
+            <a className='text-[#BBE7E6] font-bold'>Unlist</a>
+          </Popconfirm>}
         </Space>
       ),
     },
@@ -159,7 +168,17 @@ const nftColumns: ColumnsType<nftDataType> = [
   {
     title: 'Action',
     key: 'action',
-    render: () => <a className='text-[#BBE7E6] text-3xl font-bold'>Buy</a>
+    render: (text, record) => 
+      <Popconfirm
+        title="Buy"
+        description="Confirm to buy the data?"
+        onConfirm={() => handleBuy(record.key)}
+        onCancel={() => {}}
+        okText="Yes"
+        cancelText="Cancel"
+      >
+      <a className='text-[#BBE7E6] text-3xl font-bold'>Buy</a>
+    </Popconfirm>
   },
 ];
 
@@ -238,8 +257,8 @@ export default function Datamarket() {
             <Menu
               onClick={onClick}
               style={{ width: 256, background: "transparent", height: 600 }}
-              defaultSelectedKeys={['1']}
-              defaultOpenKeys={['sub1']}
+              defaultSelectedKeys={['myPublish']}
+              defaultOpenKeys={['publicList']}
               mode="inline"
               items={items}
             />
