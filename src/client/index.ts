@@ -84,7 +84,7 @@ export const getApproval = async (
   );
 
   const res = await axios.get(
-    `https://gnfd-testnet-sp-2.bnbchain.org/greenfield/admin/v1/get-approval?action=CreateBucket`,
+    `https://gnfd-testnet-sp-1.bnbchain.org/greenfield/admin/v1/get-approval?action=CreateBucket`,
     {
       headers: {
         authorization:

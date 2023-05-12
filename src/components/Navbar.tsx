@@ -37,7 +37,7 @@ export default function Navbar(props: any) {
 				</div>
 				{/* <div className="mx-3">Use Cases</div> */}
 				<div className="mx-3">
-					<Link href="/group">Grounp</Link>
+					<Link href="/group">Group</Link>
 				</div>
 				<div className="mx-3">
 					<Link href="/dataMarket">Data Market</Link>
