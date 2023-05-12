@@ -3,14 +3,18 @@ import ufo from '../../../public/images/ufo.png';
 import Head from "next/head";
 import Image from "next/image";
 import { v4 as uuidv4 } from 'uuid';
-import { Empty, Space, Table } from 'antd'
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { getBucketList } from '@/client';
+import {useAccount} from 'wagmi'
+import { Space, Table, Empty } from 'antd'
+import { useEffect, useState } from "react";
 import { useStore } from '@/lib/store';
 import { BaseModal } from '@/components/BaseModal';
 import type { TableRowSelection } from 'antd/es/table/interface';
 import type { ColumnsType } from 'antd/es/table';
 
 export default function Home() {
+  const {address} = useAccount();
   const { setComModalOpen, comModalOpen, groupModalOpen, setGroupModalOpen } = useStore()
   const [bucketName, setBucketName] = useState("")
   const [groupName, setGroupName] = useState("")
@@ -155,6 +159,19 @@ export default function Home() {
     },
     Table.EXPAND_COLUMN,
   ];
+
+  const doGetBucketList = async () => {
+   const res = await getBucketList(address);
+   console.log('bu list', res);
+  }
+
+  useEffect(() => {
+    console.log('a', address)
+    if(!address){
+      return
+    }
+  doGetBucketList();
+  }, [address])
 
 	return (
 		<>
