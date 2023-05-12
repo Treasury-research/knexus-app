@@ -3,18 +3,17 @@ import ufo from '../../../public/images/ufo.png';
 import Head from "next/head";
 import Image from "next/image";
 import { v4 as uuidv4 } from 'uuid';
-import { useRouter } from "next/router";
-import { Divider, Empty, Space, Table } from 'antd'
+import { Empty, Space, Table } from 'antd'
 import { useState } from "react";
 import { useStore } from '@/lib/store';
 import { BaseModal } from '@/components/BaseModal';
 import type { TableRowSelection } from 'antd/es/table/interface';
 import type { ColumnsType } from 'antd/es/table';
-import { AiFillAlipayCircle, AiFillAliwangwang } from "react-icons/ai";
 
 export default function Home() {
-  const { setComModalOpen, comModalOpen } = useStore()
+  const { setComModalOpen, comModalOpen, groupModalOpen, setGroupModalOpen } = useStore()
   const [bucketName, setBucketName] = useState("")
+  const [groupName, setGroupName] = useState("")
   const [checkStrictly, setCheckStrictly] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 	const [bucketDatas, setBucketDatas] = useState([
@@ -85,9 +84,22 @@ export default function Home() {
     }
   ])
   // create bucket
-	const handleSubmit = async () => {
+	const handleSubmit = async () => { 
+    setBucketName("");
+    setComModalOpen(false);
     // TODO:
-	};
+  };
+      // create group
+  const handleCreateGroup = async () => { 
+    setGroupName("")
+    setGroupModalOpen(false);
+    // TODO: 
+  };
+
+  const handleSelectGroupChange = (value: string[]) => {
+    console.log(`selected ${value}`);
+  };
+
 
   interface DataType {
     key: React.ReactNode;
@@ -134,7 +146,7 @@ export default function Home() {
           <div className='flex justify-end'>
             <Space size="large">
               { record.children ? <a href="">Upload</a> : null }
-              <a href="">Bind Group</a>
+              <a onClick={() => setGroupModalOpen(true)}>Bind Group</a>
               <a href="">Download</a>
             </Space>
           </div>
@@ -158,16 +170,16 @@ export default function Home() {
               <div className='w-64 h-64 mx-auto my-5'>
                 <Image src={ufo} alt='' className='w-full h-full object-cover'/>
               </div>
-              <p className='font-jura text-xl text-center flex justify-center -mt-10'>No Group has been created for your account.</p>
+              <p className='font-jura text-xl text-center flex justify-center -mt-10'>No Bucket has been created for your account.</p>
               <div className="font-jura text-xl text-center flex justify-center mt-8">
                 <button className='flex-shrink-0 mb-6 flex items-center p-1 px-4 rounded bg-stone-600 hover:bg-stone-700 active:bg-stone-500 focus:ring-stone-500 text-sm'
                   onClick={() => setComModalOpen(true)}>
-                  Create Group
+                  Create Bucket
                 </button>
               </div>
             </div>
           </div>:
-          <div className='mx-20 sticky top-100'>
+          <div className='mx-20'>
             <h1 className='text-2xl font-bold'>Bucket</h1>
             <p className='text-xl my-2'>Select a bucket to store data</p>
             <div className='flex flex-wrap my-6'>
@@ -177,7 +189,7 @@ export default function Home() {
                 Create Bucket
               </Button>
               <Button variant="grayPrimary" fontSize="sm" paddingX={6} color={bucketName.length ? "#fff" : "#999" }
-                className="!mt-[10px] h-[35px] leading-3 mr-4" onClick={handleSubmit}
+                className="!mt-[10px] h-[35px] leading-3 mr-4" onClick={() => setGroupModalOpen(true)}
               >
                 Bind Group
               </Button>
@@ -243,6 +255,33 @@ export default function Home() {
               </Button>
             </Box>
           </Flex>
+      </BaseModal>
+      <BaseModal isOpen={groupModalOpen} onClose={() => setGroupModalOpen(false)}>
+        <Flex w="full" justifyContent="space-between" flexDirection="column">
+          <div className='mt-[20px] lg:w-[400px] sm:w-[300px]'>
+            <h3>Group Name</h3>
+            <input
+              type="text"
+              placeholder="Please enter"
+              className="my-6 text-[#000] w-full h-[35px] bg-[#A0A79F] font-swiss721md border-0 block"
+              value={groupName}
+              onChange={(e) => setGroupName(e.target.value)}
+            />
+            <p className='font-jura text-sm ml-2'>No Group has been created for your account.</p>
+          </div>
+          <Box mt={5} textAlign="right">
+            <Button
+              variant="grayPrimary"
+              fontSize="sm"
+              paddingX={6}
+              color={groupName.length ? "#fff" : "#999" }
+              className="!mt-[10px] h-[35px] leading-3"
+              onClick={handleCreateGroup}
+            >
+              Submit
+            </Button>
+          </Box>
+        </Flex>
       </BaseModal>
 		</>
 	);
