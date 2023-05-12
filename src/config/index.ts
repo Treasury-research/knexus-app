@@ -71,4 +71,6 @@ const trustWalletConnector = new InjectedConnector({
 
 const metaMaskWalletConnector = new MetaMaskConnector({ chains });
 
-export { provider, webSocketProvider, chains, metaMaskWalletConnector, trustWalletConnector };
+const knexusAddress = '0x4f89cf21f687963bfd37afdef96da5c42e4e3e18';
+
+export { provider, webSocketProvider, chains, metaMaskWalletConnector, trustWalletConnector, knexusAddress };

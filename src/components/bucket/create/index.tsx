@@ -12,7 +12,6 @@ import {
   ISignature712,
 } from "@bnb-chain/greenfield-chain-sdk";
 import { useState } from "react";
-import axios from "axios";
 import { useAccount, useNetwork } from "wagmi";
 import { getApproval } from "@/client";
 
@@ -32,7 +31,10 @@ interface IApprovalCreateBucket {
   };
 }
 
-export const CreateBucket = () => {
+export const CreateBucket = ({
+  bucketName = '',
+  children,
+}: any) => {
   const { address } = useAccount();
   const { chain } = useNetwork();
   const createBucketTx = new CreateBucketTx(GRPC_URL!, String(chain?.id)!);
@@ -42,188 +44,146 @@ export const CreateBucket = () => {
   });
   const [gasLimit, setGasLimit] = useState(0);
   const [textarea, setTextArea] = useState("");
-  const [xGnfdSignedMsg, setXGnfdSignedMsg] =
-    useState<IApprovalCreateBucket | null>(null);
+  // const [xGnfdSignedMsg, setXGnfdSignedMsg] =
+  //   useState<IApprovalCreateBucket | null>(null);
   const [gasPrice, setGasPrice] = useState("");
 
-  const doGetApproval = async () => {
-    const signedMsg = await getApproval(address, 'bxzc4423432');
+  const doCreate = async () => {
+    /**
+     * 0. get approval
+     */
+    const signedMsg = await getApproval(address, bucketName);
 
     setTextArea(signedMsg);
 
     const storageSignedMsg = decodeFromHex(signedMsg);
-    const json = JSON.parse(storageSignedMsg) as IApprovalCreateBucket;
+    const xGnfdSignedMsg = JSON.parse(storageSignedMsg) as IApprovalCreateBucket;
 
-    console.log("storageSignedMsg", json);
-    setXGnfdSignedMsg(json);
-  };
+    /**
+     * 1. simulate
+     */
 
-  return (
-    <>
-      <h4>Create Bucket</h4>
-      <div style={{ display: "flex", gap: "14px", alignItems: "center" }}>
-        <textarea
-          value={textarea}
-          rows={14}
-          placeholder="signed msg from Storage SDK"
-          onChange={(e) => {
-            setTextArea(e.target.value);
+    if (!xGnfdSignedMsg || !address) return;
 
-            try {
-              const storageSignedMsg = decodeFromHex(e.target.value);
-              const json = JSON.parse(
-                storageSignedMsg
-              ) as IApprovalCreateBucket;
+    const { sequence } = await getAccount(GRPC_URL!, address!);
 
-              console.log("storageSignedMsg", json);
-              setXGnfdSignedMsg(json);
-            } catch (err) {
-              setXGnfdSignedMsg(null);
-            }
-          }}
-        ></textarea>
-        <div> {"=>"} </div>
-        <div>
-          <textarea
-            placeholder="decode signed msg"
-            rows={14}
-            cols={30}
-            disabled
-            value={JSON.stringify(xGnfdSignedMsg, null, 2)}
-          ></textarea>
-        </div>
-      </div>
-      <button onClick={doGetApproval}>Get Approval</button>
-      <br />
-      <button
-        onClick={async () => {
-          if (!xGnfdSignedMsg || !address) return;
+    const simulateBytes = createBucketTx.getSimulateBytes({
+      from: xGnfdSignedMsg.value.creator,
+      bucketName: xGnfdSignedMsg.value.bucket_name,
+      denom: "BNB",
+      primarySpAddress: xGnfdSignedMsg.value.primary_sp_address,
+      expiredHeight:
+        xGnfdSignedMsg.value.primary_sp_approval.expired_height,
+      sig: xGnfdSignedMsg.value.primary_sp_approval.sig,
+      chargedReadQuota: xGnfdSignedMsg.value.charged_read_quota,
+      visibility: xGnfdSignedMsg.value.visibility,
+      paymentAddress: "",
+    });
 
-          const { sequence } = await getAccount(GRPC_URL!, address!);
+    const authInfoBytes = createBucketTx.getAuthInfoBytes({
+      sequence: sequence + "",
+      denom: "BNB",
+      gasLimit: 0,
+      gasPrice: "0",
+      pubKey: makeCosmsPubKey(ZERO_PUBKEY),
+    });
 
-          const simulateBytes = createBucketTx.getSimulateBytes({
-            from: xGnfdSignedMsg.value.creator,
-            bucketName: xGnfdSignedMsg.value.bucket_name,
-            denom: "BNB",
-            primarySpAddress: xGnfdSignedMsg.value.primary_sp_address,
-            expiredHeight:
-              xGnfdSignedMsg.value.primary_sp_approval.expired_height,
-            sig: xGnfdSignedMsg.value.primary_sp_approval.sig,
-            chargedReadQuota: xGnfdSignedMsg.value.charged_read_quota,
-            visibility: xGnfdSignedMsg.value.visibility,
-            paymentAddress: "",
-          });
+    const simulateGas = await createBucketTx.simulateTx(
+      simulateBytes,
+      authInfoBytes
+    );
+    console.log(
+      "simulateGas",
+      simulateGas,
+      getGasFeeBySimulate(simulateGas)
+    );
 
-          const authInfoBytes = createBucketTx.getAuthInfoBytes({
-            sequence: sequence + "",
-            denom: "BNB",
-            gasLimit: 0,
-            gasPrice: "0",
-            pubKey: makeCosmsPubKey(ZERO_PUBKEY),
-          });
+    const gasPri = simulateGas.gasInfo?.minGasPrice.replaceAll("BNB", "");
+    setGasPrice(gasPri!);
 
-          const simulateGas = await createBucketTx.simulateTx(
-            simulateBytes,
-            authInfoBytes
-          );
-          console.log(
-            "simulateGas",
-            simulateGas,
-            getGasFeeBySimulate(simulateGas)
-          );
+    setGasLimit(simulateGas.gasInfo?.gasUsed.toNumber() || 0);
 
-          const gasPri = simulateGas.gasInfo?.minGasPrice.replaceAll("BNB", "");
-          setGasPrice(gasPri!);
+    /**
+     * 2. sign
+     */
 
-          setGasLimit(simulateGas.gasInfo?.gasUsed.toNumber() || 0);
-        }}
-      >
-        0. simulate
-      </button>
-      <br />
-      <button
-        onClick={async () => {
-          if (!xGnfdSignedMsg) return;
-          if (address !== xGnfdSignedMsg.value.creator) {
-            alert("account is not creator");
-          }
+    if (!xGnfdSignedMsg) return;
+    if (address !== xGnfdSignedMsg.value.creator) {
+      alert("account is not creator");
+    }
 
-          const { sequence, accountNumber } = await getAccount(
-            GRPC_URL!,
-            address!
-          );
-          const sign = await createBucketTx.signTx({
-            from: xGnfdSignedMsg.value.creator,
-            bucketName: xGnfdSignedMsg.value.bucket_name,
-            sequence: sequence + "",
-            accountNumber: accountNumber + "",
-            denom: "BNB",
-            gasLimit,
-            gasPrice,
-            primarySpAddress: xGnfdSignedMsg.value.primary_sp_address,
-            expiredHeight:
-              xGnfdSignedMsg.value.primary_sp_approval.expired_height,
-            sig: xGnfdSignedMsg.value.primary_sp_approval.sig,
-            chargedReadQuota: xGnfdSignedMsg.value.charged_read_quota ?? 0,
-            visibility: xGnfdSignedMsg.value.visibility,
-            paymentAddress: "",
-          });
+    const { accountNumber } = await getAccount(
+      GRPC_URL!,
+      address!
+    );
+    const sign = await createBucketTx.signTx({
+      from: xGnfdSignedMsg.value.creator,
+      bucketName: xGnfdSignedMsg.value.bucket_name,
+      sequence: sequence + "",
+      accountNumber: accountNumber + "",
+      denom: "BNB",
+      gasLimit,
+      gasPrice,
+      primarySpAddress: xGnfdSignedMsg.value.primary_sp_address,
+      expiredHeight:
+        xGnfdSignedMsg.value.primary_sp_approval.expired_height,
+      sig: xGnfdSignedMsg.value.primary_sp_approval.sig,
+      chargedReadQuota: xGnfdSignedMsg.value.charged_read_quota ?? 0,
+      visibility: xGnfdSignedMsg.value.visibility,
+      paymentAddress: "",
+    });
 
-          console.log("712 sign", sign);
-          setSignInfo(sign);
-        }}
-      >
-        1. sign 712
-      </button>
-      <br />
-      <button
-        onClick={async () => {
-          if (!address || !xGnfdSignedMsg) return;
-          if (address !== xGnfdSignedMsg.value.creator) {
-            alert("account is not creator");
-          }
+    console.log("712 sign", sign);
+    setSignInfo(sign);
 
-          const { sequence, accountNumber } = await getAccount(
-            GRPC_URL,
-            address
-          );
 
-          const pk = recoverPk({
-            signature: signInfo.signature,
-            messageHash: signInfo.messageHash,
-          });
-          const pubKey = makeCosmsPubKey(pk);
 
-          const rawBytes = await createBucketTx.getRawTxInfo({
-            bucketName: xGnfdSignedMsg.value.bucket_name,
-            denom: "BNB",
-            from: address,
-            gasLimit,
-            gasPrice,
-            primarySpAddress: xGnfdSignedMsg.value.primary_sp_address,
-            pubKey,
-            sequence: sequence + "",
-            accountNumber: accountNumber + "",
-            sign: signInfo.signature,
-            expiredHeight:
-              xGnfdSignedMsg.value.primary_sp_approval.expired_height,
-            sig: xGnfdSignedMsg.value.primary_sp_approval.sig,
-            chargedReadQuota: xGnfdSignedMsg.value.charged_read_quota,
-            visibility: xGnfdSignedMsg.value.visibility,
-            paymentAddress: "",
-          });
+    /**
+     * 3. broadcast
+     */
 
-          console.log("rawBytes", rawBytes.hex);
+    if (!address || !xGnfdSignedMsg) return;
+    if (address !== xGnfdSignedMsg.value.creator) {
+      alert("account is not creator");
+    }
 
-          const txRes = await createBucketTx.broadcastTx(rawBytes.bytes);
-          console.log("txRes", txRes);
-          if (txRes.code === 0) {
-            alert("success");
-          }
-        }}
-      >
-        2. broadcast tx
-      </button>
-    </>
-  );
+ 
+    const pk = recoverPk({
+      signature: signInfo.signature,
+      messageHash: signInfo.messageHash,
+    });
+    const pubKey = makeCosmsPubKey(pk);
+
+    const rawBytes = await createBucketTx.getRawTxInfo({
+      bucketName: xGnfdSignedMsg.value.bucket_name,
+      denom: "BNB",
+      from: address,
+      gasLimit,
+      gasPrice,
+      primarySpAddress: xGnfdSignedMsg.value.primary_sp_address,
+      pubKey,
+      sequence: sequence + "",
+      accountNumber: accountNumber + "",
+      sign: signInfo.signature,
+      expiredHeight:
+        xGnfdSignedMsg.value.primary_sp_approval.expired_height,
+      sig: xGnfdSignedMsg.value.primary_sp_approval.sig,
+      chargedReadQuota: xGnfdSignedMsg.value.charged_read_quota,
+      visibility: xGnfdSignedMsg.value.visibility,
+      paymentAddress: "",
+    });
+
+    console.log("rawBytes", rawBytes.hex);
+
+    const txRes = await createBucketTx.broadcastTx(rawBytes.bytes);
+    console.log("txRes", txRes);
+    if (txRes.code === 0) {
+      alert("success");
+    }
+    
+  }
+
+  return <div onClick={doCreate}>
+    {children}
+  </div>
 };

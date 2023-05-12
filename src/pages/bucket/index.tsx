@@ -3,8 +3,8 @@ import ufo from '../../../public/images/ufo.png';
 import Head from "next/head";
 import Image from "next/image";
 import { v4 as uuidv4 } from 'uuid';
-import { useRouter } from "next/router";
-import { getBucketList } from '@/client';
+import { CreateBucket } from '@/components/bucket/create';
+import { getBucketList, getObjectList } from '@/client';
 import {useAccount} from 'wagmi'
 import { Space, Table, Empty } from 'antd'
 import { useEffect, useState } from "react";
@@ -17,81 +17,35 @@ export default function Home() {
   const {address} = useAccount();
   const { setComModalOpen, comModalOpen, groupModalOpen, setGroupModalOpen } = useStore()
   const [bucketName, setBucketName] = useState("")
+  const [loading, setLoading] = useState(false)
   const [groupName, setGroupName] = useState("")
-  const [checkStrictly, setCheckStrictly] = useState(false);
+  // const [checkStrictly, setCheckStrictly] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 	const [bucketDatas, setBucketDatas] = useState([
-    { key: uuidv4(), name: 'data', description: '',
-    children: [
-        { name: 'data', key: uuidv4(), description: 'data des' },
-        { name: 'data2', key: uuidv4(), description: 'data des' },
-        { name: 'data3', key: uuidv4(), description: 'data des' },
-        { name: 'data4', key: uuidv4(), description: 'data des' },
-        { name: 'data5', key: uuidv4(), description: 'data des' },
-      ]
-    },
-    { key: uuidv4(), name: 'data', description: '',
-    children: [
-        { name: 'data', key: uuidv4(), description: 'data des' },
-        { name: 'data2', key: uuidv4(), description: 'data des' },
-        { name: 'data3', key: uuidv4(), description: 'data des' },
-        { name: 'data4', key: uuidv4(), description: 'data des' },
-        { name: 'data5', key: uuidv4(), description: 'data des' },
-      ]
-    },
-    { key: uuidv4(), name: 'data', description: '',
-    children: [
-        { name: 'data', key: uuidv4(), description: 'data des' },
-        { name: 'data2', key: uuidv4(), description: 'data des' },
-        { name: 'data3', key: uuidv4(), description: 'data des' },
-        { name: 'data4', key: uuidv4(), description: 'data des' },
-        { name: 'data5', key: uuidv4(), description: 'data des' },
-      ]
-    },
-    { key: uuidv4(), name: 'data', description: '',
-    children: [
-        { name: 'data', key: uuidv4(), description: 'data des' },
-        { name: 'data2', key: uuidv4(), description: 'data des' },
-        { name: 'data3', key: uuidv4(), description: 'data des' },
-        { name: 'data4', key: uuidv4(), description: 'data des' },
-        { name: 'data5', key: uuidv4(), description: 'data des' },
-      ]
-    },
-    { key: uuidv4(), name: 'data', description: '',
-    children: [
-        { name: 'data', key: uuidv4(), description: 'data des' },
-        { name: 'data2', key: uuidv4(), description: 'data des' },
-        { name: 'data3', key: uuidv4(), description: 'data des' },
-        { name: 'data4', key: uuidv4(), description: 'data des' },
-        { name: 'data5', key: uuidv4(), description: 'data des' },
-      ]
-    },
-    { key: uuidv4(), name: 'data', description: '',
-    children: [
-        { name: 'data', key: uuidv4(), description: 'data des' },
-        { name: 'data2', key: uuidv4(), description: 'data des' },
-        { name: 'data3', key: uuidv4(), description: 'data des' },
-        { name: 'data4', key: uuidv4(), description: 'data des' },
-        { name: 'data5', key: uuidv4(), description: 'data des' },
-      ]
-    },
-    { key: uuidv4(), name: 'data', description: '',
-    children: [
-        { name: 'data', key: uuidv4(), description: 'data des' },
-        { name: 'data2', key: uuidv4(), description: 'data des' },
-        { name: 'data3', key: uuidv4(), description: 'data des' },
-        { name: 'data4', key: uuidv4(), description: 'data des' },
-        { name: 'data5', key: uuidv4(), description: 'data des' },
-      ]
-    },
-    { key: uuidv4(), name: 'bucket2', description: '',
-    }
+    // { key: uuidv4(), name: 'bucket', description: '',
+    // children: [
+    //     { name: 'data', key: uuidv4(), description: 'data des' },
+    //     { name: 'data2', key: uuidv4(), description: 'data des' },
+    //     { name: 'data3', key: uuidv4(), description: 'data des' },
+    //     { name: 'data4', key: uuidv4(), description: 'data des' },
+    //     { name: 'data5', key: uuidv4(), description: 'data des' },
+    //   ]
+    // },
   ])
   // create bucket
 	const handleSubmit = async () => { 
+
+
+
+
+
+
+
     setBucketName("");
     setComModalOpen(false);
     // TODO:
+
+
   };
       // create group
   const handleCreateGroup = async () => { 
@@ -112,22 +66,22 @@ export default function Home() {
     children?: DataType[];
   }
 
-  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
-    setSelectedRowKeys(newSelectedRowKeys);
-  };
+  // const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+  //   console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+  //   setSelectedRowKeys(newSelectedRowKeys);
+  // };
 
-  const rowSelection: TableRowSelection<DataType> = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-    },
-    onSelect: (record, selected, selectedRows) => {
-      console.log(record, selected, selectedRows);
-    },
-    onSelectAll: (selected, selectedRows, changeRows) => {
-      console.log(selected, selectedRows, changeRows);
-    },
-  };
+  // const rowSelection: TableRowSelection<DataType> = {
+  //   onChange: (selectedRowKeys, selectedRows) => {
+  //     console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+  //   },
+  //   onSelect: (record, selected, selectedRows) => {
+  //     console.log(record, selected, selectedRows);
+  //   },
+  //   onSelectAll: (selected, selectedRows, changeRows) => {
+  //     console.log(selected, selectedRows, changeRows);
+  //   },
+  // };
 
   const columns: ColumnsType<DataType> = [
     {
@@ -161,12 +115,25 @@ export default function Home() {
   ];
 
   const doGetBucketList = async () => {
-   const res = await getBucketList(address);
-   console.log('bu list', res);
+    setLoading(true);
+   const { buckets } = await getBucketList(address);
+   console.log('buckets', buckets)
+   // get object list
+   for(let i=0; i<buckets.length; i++){
+    const bucketName =  buckets[i].bucket_info.bucket_name
+    buckets[i].name = bucketName
+    const { objects } = await getObjectList(bucketName)
+    console.log('objects', objects)
+    buckets[i].children = objects.map((item:any) => ({
+      name: item.object_info.object_name
+    }))
+   }
+
+   setBucketDatas(buckets)
+   setLoading(false);
   }
 
   useEffect(() => {
-    console.log('a', address)
     if(!address){
       return
     }
@@ -259,16 +226,17 @@ export default function Home() {
               <p className='font-jura text-sm ml-2'>No Bucket has been created for your account.</p>
             </div>
             <Box mt={5} textAlign="right">
-              <Button
-                variant="grayPrimary"
-                fontSize="sm"
-                paddingX={6}
-                color={bucketName.length ? "#fff" : "#999" }
-                className="!mt-[10px] h-[35px] leading-3"
-                onClick={handleSubmit}
-              >
-                Submit
-              </Button>
+              <CreateBucket bucketName={bucketName}>
+                <Button
+                  variant="grayPrimary"
+                  fontSize="sm"
+                  paddingX={6}
+                  color={bucketName.length ? "#fff" : "#999" }
+                  className="!mt-[10px] h-[35px] leading-3"
+                >
+                  Submit
+                </Button>
+              </CreateBucket>
             </Box>
           </Flex>
       </BaseModal>
