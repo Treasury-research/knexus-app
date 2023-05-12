@@ -8,6 +8,7 @@ import Exclude2 from '../../../public/images/exclude2.svg'
 import Exclude3 from '../../../public/images/exclude3.svg'
 import Editor from "@monaco-editor/react";
 import { Center, Table, TableCaption, TableContainer, Tbody, Td, Tfoot, Th, Thead, Tr } from '@chakra-ui/react'
+import Loading from '@/components/Loading'
 
 const setEditorTheme = (monaco: any) => {
   monaco.editor.defineTheme("spx-dark", {
@@ -115,6 +116,8 @@ const dataList = [
 
 export default function ConstructAssignment() {
   const [demand, setDemand] = useState('')
+  const [runSqlLoding, setRunSqlLoding] = useState(false);
+  const [fetchTableDataLoading, setFetchTableDataLoading] = useState(false);
   const editorRef = useRef(null);
   const [editorHeight, setEditorHeight] = useState(600);
   const handleEditorDidContentSizeChange = (editor: any) => {
@@ -123,9 +126,12 @@ export default function ConstructAssignment() {
       setEditorHeight(contentHeight);
     }
   };
-  const handleSubmit = useCallback(
-    (demand: string) => {
-      console.log(demand)
+  const handleRunSql = useCallback(
+    () => {
+      setFetchTableDataLoading(true);
+      setTimeout(() => {
+        setFetchTableDataLoading(false);
+      }, 2000);
     },
     [],
   )
@@ -150,6 +156,7 @@ export default function ConstructAssignment() {
             {/* <Image src={LeftBracket} alt="" priority style={{height: '100%', marginLeft: -5}} /> */}
           </CornerHighlight>
           <div className='rounded-md flex flex-1 flex-col justify-between bg-[#1e1e1e]'>
+            <h2 className='text-xl pl-8 pt-2'>Input your SQL here</h2>
             <Editor
               width="100%"
               options={{
@@ -166,7 +173,7 @@ export default function ConstructAssignment() {
               language='sql'
               defaultValue={example}
             />
-            <button className='bg-[#373737] px-8 py-1 rounded self-end mb-4 mr-8'>Run</button>
+            <button className='bg-[#373737] px-8 py-1 rounded self-end mb-4 mr-8' onClick={() => handleRunSql()}>Run</button>
           </div>
           <CornerHighlight cornerHighlightPosition="cornerHighlightBR">
 					  {/* <Image src={RightBracket} alt="" style={{height: '100%', marginRight: -10}} /> */}
@@ -175,29 +182,34 @@ export default function ConstructAssignment() {
         <div className='w-20'></div>
         <div className="flex flex-1 flex-row justify-between self-start sticky top-[180px]">
 					<div className="flex flex-1 flex-col justify-center items-center w-full h-[660px] overflow-hidden">
-            <TableContainer background={"#1e1e1e"} className='w-full' overflowY="auto">
-              <Table size="lg" className='w-full'>
-                <Thead position="sticky" top={0} zIndex={10} background={"#1e1e1e "}>
-                  <Tr>
-                    <Th>Date</Th>
-                    <Th textAlign="center">posts</Th>
-                    <Th textAlign="center">mirrors</Th>
-                    <Th isNumeric>comments</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {
-                    dataList.map((item, index) => <Tr border="hidden" key={index}>
-                      <Td>{item.Date}</Td>
-                      <Td textAlign="center">{item.posts}</Td>
-                      <Td textAlign="center">{item.mirrors}</Td>
-                      <Td isNumeric>{item.comments}</Td>
-                    </Tr>)
-                  }
-                </Tbody>
-              </Table>
-            </TableContainer>
-            <button className='bg-[#373737] px-8 py-1 rounded self-end mt-4'>Run</button>
+            {
+              fetchTableDataLoading ? <div className='bg-[#1e1e1e] w-full min-h-[620px] flex items-center justify-center'><Loading /> </div>:
+              <>
+                <TableContainer background={"#1e1e1e"} className='w-full min-h-[600px]' overflowY="auto">
+                  <Table size="lg" className='w-full'>
+                    <Thead position="sticky" top={0} zIndex={10} background={"#1e1e1e "}>
+                      <Tr>
+                        <Th>Date</Th>
+                        <Th textAlign="center">posts</Th>
+                        <Th textAlign="center">mirrors</Th>
+                        <Th isNumeric>comments</Th>
+                      </Tr>
+                    </Thead>
+                    <Tbody>
+                      {
+                        dataList.map((item, index) => <Tr border="hidden" key={index}>
+                          <Td>{item.Date}</Td>
+                          <Td textAlign="center">{item.posts}</Td>
+                          <Td textAlign="center">{item.mirrors}</Td>
+                          <Td isNumeric>{item.comments}</Td>
+                        </Tr>)
+                      }
+                    </Tbody>
+                  </Table>
+                </TableContainer>
+                <button className='bg-[#373737] px-8 py-1 rounded self-end mt-4'>Run</button>
+              </>
+            }
 					</div>
 				</div>
       </div>

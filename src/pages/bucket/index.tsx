@@ -34,13 +34,6 @@ export default function Home() {
   ])
   // create bucket
 	const handleSubmit = async () => { 
-
-
-
-
-
-
-
     setBucketName("");
     setComModalOpen(false);
     // TODO:
@@ -63,6 +56,7 @@ export default function Home() {
     key: string;
     name: string;
     description: string;
+    type: string;
     children?: DataType[];
   }
 
@@ -102,10 +96,14 @@ export default function Home() {
         console.log(record);
         return (
           <div className='flex justify-end'>
-            <Space size="large">
-              { record.children ? <a href="">Upload</a> : null }
-              <a onClick={() => setGroupModalOpen(true)}>Bind Group</a>
-              <a href="">Download</a>
+            <Space size="large" className='mr-4'>
+              { record.type === "bucket" ? <a href="">Upload</a> : null }
+              { record.type === "data" ? <>
+                <a onClick={() => setGroupModalOpen(true)}>Bind Group</a>
+                <a href="">Download</a></> : 
+                !record.children ? null :
+                <><a onClick={() => setGroupModalOpen(true)}>Bind Group</a><a href="">Download</a></>
+              }
             </Space>
           </div>
         )
