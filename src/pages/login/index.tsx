@@ -1,22 +1,46 @@
 import Head from "next/head";
+import { BSC_CHAIN_ID, GREEN_CHAIN_ID, metaMaskWalletConnector } from '@/config';
+import {
+	useAccount,
+	useBalance,
+	useConnect,
+	useDisconnect,
+	useNetwork,
+	useSwitchNetwork,
+  } from 'wagmi';
 import Image from "next/image";
 import LeftBracket from "../../../public/images/Vector-Left-Bracket.svg";
 import RightBracket from "../../../public/images/Vector-Right-Bracket.svg";
 import FinalLogo2 from "../../../public/images/TF-final-logo-2.png";
 import cwicon from "../../../public/images/cwicon.png";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+
 
 export default function Home() {
+	const router = useRouter();
+	const {address} = useAccount();
+
+	const { connect } = useConnect({
+		// connector: trustWalletConnector,
+		connector: metaMaskWalletConnector,
+	  });
 
   const [connecting, setConnecting] = useState(false);
 
   // connect wallet
   const handleConnect = useCallback(
     () => {
-      // do something
+      connect();
     },
     [],
   )
+
+  useEffect(() => {
+	if(address){
+		router.push('/home');
+	}
+	  }, [address])
   
 	return (
 		<>

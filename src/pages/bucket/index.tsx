@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from "next/router";
 import { getBucketList } from '@/client';
 import {useAccount} from 'wagmi'
-import { Space, Table } from 'antd'
+import { Space, Table, Empty } from 'antd'
 import { useEffect, useState } from "react";
 import { useStore } from '@/lib/store';
 import { BaseModal } from '@/components/BaseModal';
