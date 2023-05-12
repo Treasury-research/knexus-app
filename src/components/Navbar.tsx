@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import Logo from "../../public/images/TF-final-logo-5.png";
+import Logo from "../../public/images/logo.svg";
 import ConnectWallet from "./ConnectWallet";
 
 function helperTitle(pathname: string): string | null {
