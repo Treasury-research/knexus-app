@@ -5,6 +5,7 @@ import {
   useContractWrite,
   useWaitForTransaction,
 } from "wagmi";
+import { Spin } from "antd";
 import { toast } from "react-toastify";
 
 export default function RemoveOrder({ children, id }: any) {
@@ -39,12 +40,14 @@ export default function RemoveOrder({ children, id }: any) {
   });
 
   return (
-    <div
-      onClick={() => {
-        !isLoading && write?.();
-      }}
-    >
-      {children} {isLoading && "..."}
-    </div>
+    <Spin spinning={isLoading}>
+      <div
+        onClick={() => {
+          !isLoading && write?.();
+        }}
+      >
+        {children}
+      </div>
+    </Spin>
   );
 }

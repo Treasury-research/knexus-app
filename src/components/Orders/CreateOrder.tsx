@@ -6,6 +6,7 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 import { toast } from "react-toastify";
+import { Spin } from "antd";
 import { BigNumber, ethers } from "ethers";
 
 export default function CreateOrder({
@@ -15,8 +16,9 @@ export default function CreateOrder({
   objectName,
   id,
   groupId,
+  onSuccess,
 }: any) {
-  console.log("create order", price, objectName, id, groupId);
+  console.log("create order", price, description, objectName, id, groupId);
   const { config } = usePrepareContractWrite({
     address: knexusAddress,
     abi: [
@@ -70,16 +72,19 @@ export default function CreateOrder({
     hash: data?.hash,
     onSuccess: () => {
       toast.success("Success");
+      onSuccess();
     },
   });
 
   return (
-    <div
-      onClick={() => {
-        !isLoading && write?.();
-      }}
-    >
-      {children} {isLoading && "..."}
-    </div>
+    <Spin spinning={isLoading}>
+      <div
+        onClick={() => {
+          !isLoading && write?.();
+        }}
+      >
+        {children}
+      </div>
+    </Spin>
   );
 }

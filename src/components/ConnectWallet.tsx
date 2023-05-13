@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import acctIcon from "../../public/images/account-icon.svg";
 import { useAccount, useConnect } from "wagmi";
@@ -9,6 +9,11 @@ export default function ConnectWallet() {
 	const { connect } = useConnect({
 		connector: metaMaskWalletConnector,
 	});
+
+
+	useEffect(()=>{
+		connect();
+	}, [])
 	return (
 		<div
 			style={{ background: "rgba(255, 255, 255, 0.1)",  height: 40 }}

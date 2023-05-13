@@ -1,7 +1,8 @@
 import React from "react";
 import { knexusAddress } from "@/config";
 import { ethers, BigNumber } from "ethers";
-import {toast} from 'react-toastify'
+import { toast } from "react-toastify";
+import { Spin } from "antd";
 import {
   usePrepareContractWrite,
   useContractWrite,
@@ -48,12 +49,14 @@ export default function PurchaseOrder({ children, id, price }: any) {
   });
 
   return (
-    <div
-      onClick={() => {
-       !isLoading && write?.();
-      }}
-    >
-      {children} {isLoading && "..."}
-    </div>
+    <Spin spinning={isLoading}>
+      <div
+        onClick={() => {
+          !isLoading && write?.();
+        }}
+      >
+        {children}
+      </div>
+    </Spin>
   );
 }

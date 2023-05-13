@@ -330,11 +330,8 @@ export default function Datamarket() {
       },
     ],
     functionName: "getAllOrders",
-    // watch: true,
+    watch: true,
   });
-
-
-  console.log('ORders', orders)
 
   return (
     <>
