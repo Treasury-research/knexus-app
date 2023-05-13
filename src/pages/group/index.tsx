@@ -14,6 +14,7 @@ export default function Group() {
   const [activeObject, setActiveObject] = useState<any>({})
   const [groupName, setGroupName] = useState("")
   const [price, setPrice] = useState("")
+  const [description, setDescription] = useState('');
   const { setGroupModalOpen, groupModalOpen, groups, setGroups } = useStore()
   const [publishModalOpen, setPublishModalOpen] = useState(false)
 
@@ -164,6 +165,17 @@ export default function Group() {
       <BaseModal isOpen={publishModalOpen}
         onClose={() => setPublishModalOpen(false)}>
           <Flex w="full" justifyContent="space-between" flexDirection="column">
+          <div className='mt-[20px] lg:w-[400px] sm:w-[300px]'>
+              <h3>Description</h3>
+              <div className='relative'>
+                <input
+                  placeholder="Please enter"
+                  className="my-6 text-[#000] pl-2 w-full h-[35px] bg-[#A0A79F] font-swiss721md border-0 block pr-12"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </div>
+            </div>
             <div className='mt-[20px] lg:w-[400px] sm:w-[300px]'>
               <h3>Data Price</h3>
               <div className='relative'>
@@ -180,7 +192,7 @@ export default function Group() {
               </div>
             </div>
             <Box textAlign="right">
-              <CreateOrder price={price} onSuccess={() => toast.success('Success')} objectName={activeObject.name} id={activeObject.id} groupId={activeObject.groupId}>
+              <CreateOrder price={price} onSuccess={() => toast.success('Success')} description={description} objectName={activeObject.name} id={activeObject.id} groupId={activeObject.groupId}>
                 <Button
                   variant="grayPrimary"
                   fontSize="sm"

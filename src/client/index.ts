@@ -59,6 +59,21 @@ export const getObjectList = async (bucketName: string) => {
   return res.data;
 };
 
+export const doDownload = async (bucketName: string, objectName: string) => {
+
+  const downloadURL = `https://gnfd-testnet-sp-4.bnbchain.org/download/${bucketName}/${objectName}`
+
+  const res = await fetch(downloadURL);
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = objectName;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
 export const getApproval = async (
   userAddress: string = "",
   bucketName: string

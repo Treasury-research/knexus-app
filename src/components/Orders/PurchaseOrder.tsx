@@ -1,13 +1,14 @@
 import React from "react";
 import { knexusAddress } from "@/config";
 import { ethers, BigNumber } from "ethers";
+import {toast} from 'react-toastify'
 import {
   usePrepareContractWrite,
   useContractWrite,
   useWaitForTransaction,
 } from "wagmi";
 
-export default function PurchaseOrder({ children, id, price,onSuccess }: any) {
+export default function PurchaseOrder({ children, id, price }: any) {
   console.log("purchase", price);
   // const payEther = BigNumber.from(
   //   ethers.utils.parseUnits(price, "ether")
@@ -33,7 +34,7 @@ export default function PurchaseOrder({ children, id, price,onSuccess }: any) {
     functionName: "purchaseOrder",
     args: [id],
     overrides: {
-      value:  BigNumber.from(Number(price)),
+      value: BigNumber.from(Number(price)),
     },
   });
 
@@ -41,8 +42,18 @@ export default function PurchaseOrder({ children, id, price,onSuccess }: any) {
 
   const { isLoading, isSuccess } = useWaitForTransaction({
     hash: data?.hash,
-    onSuccess,
+    onSuccess: () => {
+      toast.success("Success");
+    },
   });
 
-  return <div onClick={write}>{children}</div>;
+  return (
+    <div
+      onClick={() => {
+       !isLoading && write?.();
+      }}
+    >
+      {children} {isLoading && "..."}
+    </div>
+  );
 }

@@ -19,6 +19,7 @@ import { useContractRead } from "wagmi";
 // import nft2 from "../../../public/images/nft2.svg";
 // import Bitmap from "../../../public/images/Bitmap.svg";
 // import Image from "next/image";
+import { doDownload } from "@/client";
 import { useAccount } from "wagmi";
 import { BigNumber, ethers } from "ethers";
 
@@ -200,6 +201,11 @@ const columnsSubtree: (
       render: text => <span>{BigNumber.from(text).toNumber()}</span>
     },
     {
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
+    },
+    {
       title: "Price",
       dataIndex: "price",
       key: "price",
@@ -226,7 +232,7 @@ const columnsSubtree: (
             // </Popconfirm>
           )}
           {action === "Download" && (
-            <a className="text-[#BBE7E6] font-bold">{action}</a>
+            <a className="text-[#BBE7E6] font-bold" onClick={() => doDownload('knexus', record.name)}>Download</a>
           )}
           {action === "Unlist" && (
             <RemoveOrder id={record.id}>

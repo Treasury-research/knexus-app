@@ -5,15 +5,16 @@ import {
   useContractWrite,
   useWaitForTransaction,
 } from "wagmi";
+import { toast } from "react-toastify";
 import { BigNumber, ethers } from "ethers";
 
 export default function CreateOrder({
   children,
   price,
+  description,
   objectName,
   id,
   groupId,
-  onSuccess,
 }: any) {
   console.log("create order", price, objectName, id, groupId);
   const { config } = usePrepareContractWrite({
@@ -56,7 +57,7 @@ export default function CreateOrder({
     functionName: "createOrder",
     args: [
       objectName,
-      objectName,
+      description,
       id,
       groupId,
       price ? ethers.utils.parseUnits(price, "ether") : BigNumber.from(0),
@@ -67,17 +68,18 @@ export default function CreateOrder({
 
   const { isLoading, isSuccess } = useWaitForTransaction({
     hash: data?.hash,
-    onSuccess,
+    onSuccess: () => {
+      toast.success("Success");
+    },
   });
 
   return (
     <div
       onClick={() => {
-        console.log("write", write);
-        write?.();
+        !isLoading && write?.();
       }}
     >
-      {children}
+      {children} {isLoading && "..."}
     </div>
   );
 }

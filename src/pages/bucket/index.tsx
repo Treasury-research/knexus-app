@@ -4,7 +4,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { v4 as uuidv4 } from 'uuid';
 import { CreateBucket } from '@/components/bucket/create';
-import { getBucketList, getObjectList } from '@/client';
+import { getBucketList, getObjectList, doDownload } from '@/client';
 import {useAccount} from 'wagmi'
 import { Space, Table, Empty } from 'antd'
 import { useEffect, useState } from "react";
@@ -25,15 +25,15 @@ export default function Home() {
   // const [checkStrictly, setCheckStrictly] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 	const [bucketDatas, setBucketDatas] = useState([
-    { key: uuidv4(), name: 'bucket', description: '', type: 'bucket',
-    children: [
-        { name: 'data', key: uuidv4(), description: 'data des', type: 'data' },
-        { name: 'data2', key: uuidv4(), description: 'data des', type: 'data' },
-        { name: 'data3', key: uuidv4(), description: 'data des', type: 'data' },
-        { name: 'data4', key: uuidv4(), description: 'data des', type: 'data' },
-        { name: 'data5', key: uuidv4(), description: 'data des', type: 'data' },
-      ]
-    },
+    // { key: uuidv4(), name: 'bucket', description: '', type: 'bucket',
+    // children: [
+    //     { name: 'data', key: uuidv4(), description: 'data des', type: 'data' },
+    //     { name: 'data2', key: uuidv4(), description: 'data des', type: 'data' },
+    //     { name: 'data3', key: uuidv4(), description: 'data des', type: 'data' },
+    //     { name: 'data4', key: uuidv4(), description: 'data des', type: 'data' },
+    //     { name: 'data5', key: uuidv4(), description: 'data des', type: 'data' },
+    //   ]
+    // },
   ])
   // create bucket
 	const handleSubmit = async () => { 
@@ -104,13 +104,21 @@ export default function Home() {
         return (
           <div className='flex justify-end'>
             <Space size="large" className='mr-4'>
-              { record.type === "bucket" ? <a className='text-[#BBE7E6] font-bold' onClick={() => setUploadModalOpen(true)}>Upload</a> : null }
+              {
+            record.type === "data" && <>
+                <a className='text-[#BBE7E6] font-bold' onClick={() => setGroupModalOpen(true)}>Bind Group</a>
+                <a className='text-[#BBE7E6] font-bold' onClick={() => doDownload(record.bucketName, record.name)}>Download</a></>
+              }
+
+              {/* { record.type === "bucket" ? <a className='text-[#BBE7E6] font-bold' onClick={() => setUploadModalOpen(true)}>Upload</a> : null }
               { record.type === "data" ? <>
                 <a className='text-[#BBE7E6] font-bold' onClick={() => setGroupModalOpen(true)}>Bind Group</a>
                 <a className='text-[#BBE7E6] font-bold' href="">Download</a></> : 
                 !record.children ? null :
-                <><a className='text-[#BBE7E6] font-bold' onClick={() => setGroupModalOpen(true)}>Bind Group</a><a href="">Download</a></>
-              }
+                <><a className='text-[#BBE7E6] font-bold' onClick={() => setGroupModalOpen(true)}>Bind Group</a>
+                <a href="" onClick={() => doDownload(record?.bucketName, record.name)}>Download</a>
+                </>
+              } */}
             </Space>
           </div>
         )
@@ -130,11 +138,13 @@ export default function Home() {
     const { objects } = await getObjectList(bucketName)
     console.log('objects', objects)
     buckets[i].children = objects.map((item:any) => ({
-      name: item.object_info.object_name
+      name: item.object_info.object_name,
+      bucketName,
+      type: 'data',
     }))
    }
 
-  //  setBucketDatas(buckets)
+   setBucketDatas(buckets)
    setLoading(false);
   }
 
@@ -153,7 +163,14 @@ export default function Home() {
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 			</Head>
       <div className='mt-[50px]'>
-        { !bucketDatas.length ?
+        {loading ?  <div className="flex flex-row justify-center items-center mx-20">
+            <div className="mt-10 ">
+              <div className='w-64 h-64 mx-auto my-5'>
+                <Image src={ufo} alt='' className='w-full h-full object-cover'/>
+              </div>
+              <p className='font-jura text-xl text-center flex justify-center -mt-10'>Loading...</p>
+            </div>
+          </div> : !bucketDatas.length ?
           <div className="flex flex-row justify-center items-center mx-20">
             <div className="mt-10 ">
               <div className='w-64 h-64 mx-auto my-5'>

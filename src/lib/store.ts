@@ -32,7 +32,8 @@ export const useStore = create<AppState>()((set) => ({
 	groups: [
     { key: '81', name: 'knexus', id: '81', description: '', type: 'bucket',
       children: [
-        { name: 'lens1.csv', key: '280', id: '280', groupId: '81', description: '', type: 'data' },
+        { name: 'prompts.txt', key: '290', id: '290', groupId: '81', description: '', type: 'data' },
+        { name: 'kol_lens_follower_quality_report.numbers', key: '295', id: '295', groupId: '81', description: '', type: 'data' },
       ]
     },
   ],

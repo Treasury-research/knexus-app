@@ -5,8 +5,9 @@ import {
   useContractWrite,
   useWaitForTransaction,
 } from "wagmi";
+import { toast } from "react-toastify";
 
-export default function RemoveOrder({ children, id, onSuccess }: any) {
+export default function RemoveOrder({ children, id }: any) {
   const { config } = usePrepareContractWrite({
     address: knexusAddress,
     abi: [
@@ -32,16 +33,18 @@ export default function RemoveOrder({ children, id, onSuccess }: any) {
 
   const { isLoading, isSuccess } = useWaitForTransaction({
     hash: data?.hash,
-    onSuccess,
+    onSuccess: () => {
+      toast.success("Success");
+    },
   });
 
   return (
     <div
       onClick={() => {
-        write?.();
+        !isLoading && write?.();
       }}
     >
-      {children}
+      {children} {isLoading && "..."}
     </div>
   );
 }
