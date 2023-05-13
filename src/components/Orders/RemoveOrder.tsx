@@ -6,7 +6,7 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 
-export default function RemoveOrder({ children }: any) {
+export default function RemoveOrder({ children, id, onSuccess }: any) {
   const { config } = usePrepareContractWrite({
     address: knexusAddress,
     abi: [
@@ -25,13 +25,23 @@ export default function RemoveOrder({ children }: any) {
       },
     ],
     functionName: "removeOrder",
+    args: [id],
   });
 
   const { write, data } = useContractWrite(config);
 
   const { isLoading, isSuccess } = useWaitForTransaction({
     hash: data?.hash,
+    onSuccess,
   });
 
-  return <div onClick={write}>{children}</div>;
+  return (
+    <div
+      onClick={() => {
+        write?.();
+      }}
+    >
+      {children}
+    </div>
+  );
 }

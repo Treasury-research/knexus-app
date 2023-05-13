@@ -5,8 +5,17 @@ import {
   useContractWrite,
   useWaitForTransaction,
 } from "wagmi";
+import { BigNumber, ethers } from "ethers";
 
-export default function CreateOrder({ children }: any) {
+export default function CreateOrder({
+  children,
+  price,
+  objectName,
+  id,
+  groupId,
+  onSuccess,
+}: any) {
+  console.log("create order", price, objectName, id, groupId);
   const { config } = usePrepareContractWrite({
     address: knexusAddress,
     abi: [
@@ -45,13 +54,30 @@ export default function CreateOrder({ children }: any) {
       },
     ],
     functionName: "createOrder",
+    args: [
+      objectName,
+      objectName,
+      id,
+      groupId,
+      price ? ethers.utils.parseUnits(price, "ether") : BigNumber.from(0),
+    ],
   });
 
   const { write, data } = useContractWrite(config);
 
   const { isLoading, isSuccess } = useWaitForTransaction({
     hash: data?.hash,
+    onSuccess,
   });
 
-  return <div onClick={write}>{children}</div>;
+  return (
+    <div
+      onClick={() => {
+        console.log("write", write);
+        write?.();
+      }}
+    >
+      {children}
+    </div>
+  );
 }

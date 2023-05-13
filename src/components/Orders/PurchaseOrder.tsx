@@ -1,12 +1,18 @@
 import React from "react";
 import { knexusAddress } from "@/config";
+import { ethers, BigNumber } from "ethers";
 import {
   usePrepareContractWrite,
   useContractWrite,
   useWaitForTransaction,
 } from "wagmi";
 
-export default function PurchaseOrder({ children }: any) {
+export default function PurchaseOrder({ children, id, price,onSuccess }: any) {
+  console.log("purchase", price);
+  // const payEther = BigNumber.from(
+  //   ethers.utils.parseUnits(price, "ether")
+  // ).toString();
+  // console.log("payether", payEther);
   const { config } = usePrepareContractWrite({
     address: knexusAddress,
     abi: [
@@ -25,12 +31,17 @@ export default function PurchaseOrder({ children }: any) {
       },
     ],
     functionName: "purchaseOrder",
+    args: [id],
+    overrides: {
+      value:  BigNumber.from(Number(price)),
+    },
   });
 
   const { write, data } = useContractWrite(config);
 
   const { isLoading, isSuccess } = useWaitForTransaction({
     hash: data?.hash,
+    onSuccess,
   });
 
   return <div onClick={write}>{children}</div>;

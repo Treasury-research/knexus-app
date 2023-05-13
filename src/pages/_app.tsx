@@ -6,6 +6,8 @@ import localFont from "@next/font/local"
 import { Jura } from "@next/font/google"
 import { ConfigProvider, theme } from "antd"
 import { createClient, WagmiConfig } from 'wagmi'
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 import {
   metaMaskWalletConnector,
@@ -88,6 +90,7 @@ export default function App({ Component, pageProps }: AppProps) {
           </main>
         </WagmiConfig>
       </ChakraProvider>
+      <ToastContainer />
     </ConfigProvider>
   );
 }

@@ -1,9 +1,9 @@
-import { Chain, configureChains } from 'wagmi';
-import { mainnet } from 'wagmi/chains';
-import { InjectedConnector } from 'wagmi/connectors/injected';
-import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
-import { publicProvider } from 'wagmi/providers/public';
-import * as env from './env';
+import { Chain, configureChains } from "wagmi";
+import { mainnet } from "wagmi/chains";
+import { InjectedConnector } from "wagmi/connectors/injected";
+import { MetaMaskConnector } from "wagmi/connectors/metaMask";
+import { publicProvider } from "wagmi/providers/public";
+import * as env from "./env";
 
 export const GRPC_URL = env.GRPC_URL;
 export const GREENFIELD_RPC_URL = env.GREENFIELD_RPC_URL;
@@ -15,7 +15,7 @@ export const CROSS_CHAIN_CONTRACT_ADDRESS = env.CROSS_CHAIN_CONTRACT_ADDRESS;
 
 const greenFieldChain: Chain = {
   id: GREEN_CHAIN_ID,
-  network: 'greenfield',
+  network: "greenfield",
   rpcUrls: {
     default: {
       http: [GREENFIELD_RPC_URL],
@@ -24,18 +24,18 @@ const greenFieldChain: Chain = {
       http: [GREENFIELD_RPC_URL],
     },
   },
-  name: 'greenfield',
+  name: "greenfield",
   nativeCurrency: {
-    name: 'BNB',
-    symbol: 'BNB',
+    name: "BNB",
+    symbol: "BNB",
     decimals: 18,
   },
 };
 
 const bscChain: Chain = {
   id: BSC_CHAIN_ID,
-  name: 'BSC',
-  network: 'QA - bsc smart chain',
+  name: "BSC",
+  network: "QA - bsc smart chain",
   rpcUrls: {
     default: {
       http: [BSC_RPC_URL],
@@ -45,8 +45,8 @@ const bscChain: Chain = {
     },
   },
   nativeCurrency: {
-    name: 'BNB',
-    symbol: 'BNB',
+    name: "BNB",
+    symbol: "BNB",
     decimals: 18,
   },
   // blockExplorers: {
@@ -57,20 +57,28 @@ const bscChain: Chain = {
 
 const { chains, provider, webSocketProvider } = configureChains(
   [mainnet, greenFieldChain, bscChain],
-  [publicProvider()],
+  [publicProvider()]
 );
 
 const trustWalletConnector = new InjectedConnector({
   chains,
   options: {
-    name: 'GN',
+    name: "GN",
     shimDisconnect: true,
-    getProvider: () => (typeof window !== 'undefined' ? window.ethereum : undefined),
+    getProvider: () =>
+      typeof window !== "undefined" ? window.ethereum : undefined,
   },
 });
 
 const metaMaskWalletConnector = new MetaMaskConnector({ chains });
 
-const knexusAddress = '0x4f89cf21f687963bfd37afdef96da5c42e4e3e18';
+const knexusAddress = "0x8ec610b0f6f6b9b92326e501f2724f308d67bbad";
 
-export { provider, webSocketProvider, chains, metaMaskWalletConnector, trustWalletConnector, knexusAddress };
+export {
+  provider,
+  webSocketProvider,
+  chains,
+  metaMaskWalletConnector,
+  trustWalletConnector,
+  knexusAddress,
+};

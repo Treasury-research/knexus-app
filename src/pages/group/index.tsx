@@ -5,13 +5,15 @@ import Image from "next/image";
 import { useStore } from '@/lib/store';
 import { BaseModal } from '@/components/BaseModal';
 import { Box, Button, Flex } from '@chakra-ui/react';
+import {toast} from 'react-toastify'
 import { v4 as uuidv4 } from 'uuid';
 import { Empty, Space, Table } from 'antd';
-import type { TableRowSelection } from 'antd/es/table/interface';
-import type { ColumnsType } from 'antd/es/table';
+import CreateOrder from "@/components/Orders/CreateOrder";
 
 export default function Group() {
+  const [activeObject, setActiveObject] = useState<any>({})
   const [groupName, setGroupName] = useState("")
+  const [price, setPrice] = useState("")
   const { setGroupModalOpen, groupModalOpen, groups, setGroups } = useStore()
   const [publishModalOpen, setPublishModalOpen] = useState(false)
 
@@ -44,7 +46,8 @@ export default function Group() {
             <Space size="large" className='mr-4'>
               { 
                 record.type === "data" ?
-                <a onClick={() => setPublishModalOpen(true)}>Publish</a>:
+                <a onClick={() => {setPublishModalOpen(true);
+                setActiveObject(record)}}>Publish</a>:
                 null
               }
             </Space>
@@ -89,8 +92,9 @@ export default function Group() {
               </div>
               <p className='font-jura text-xl text-center flex justify-center -mt-10'>No Group has been created for your account.</p>
               <div className="font-jura text-xl text-center flex justify-center mt-8">
-                <button className='flex-shrink-0 mb-6 flex items-center p-1 px-4 rounded bg-stone-600 hover:bg-stone-700 active:bg-stone-500 focus:ring-stone-500 text-sm'
-                  onClick={() => setGroupModalOpen(true)}>
+                <button className='flex-shrink-0 disabled mb-6 flex items-center p-1 px-4 rounded bg-stone-600 hover:bg-stone-700 active:bg-stone-500 focus:ring-stone-500 text-sm'
+                  onClick={() => setGroupModalOpen(true)}
+                  >
                   Create Group
                 </button>
               </div>
@@ -100,7 +104,7 @@ export default function Group() {
             <h1 className='text-2xl font-bold'>Group</h1>
             <p className='text-xl my-2'>Select a group to store data</p>
             <div className='flex flex-wrap my-6'>
-              <Button variant="grayPrimary" fontSize="sm" paddingX={6} color={"#fff"}
+              <Button isDisabled={true} variant="grayPrimary" fontSize="sm" paddingX={6} color={"#fff"}
                 className="!mt-[10px] h-[35px] leading-3 mr-4" onClick={() => setGroupModalOpen(true)}
               >
                 Create Group
@@ -169,24 +173,26 @@ export default function Group() {
                   max={1000000000000000000000}
                   placeholder="Please enter"
                   className="my-6 text-[#000] w-full h-[35px] bg-[#A0A79F] font-swiss721md border-0 block pr-12"
-                  value={groupName}
-                  onChange={(e) => setGroupName(e.target.value)}
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
                 />
                 <span className='text-[#000] absolute right-2 top-0 translate-y-1/4'>BNB</span>
               </div>
             </div>
             <Box textAlign="right">
-              <Button
-                variant="grayPrimary"
-                fontSize="sm"
-                paddingX={6}
-                color={groupName.length ? "#fff" : "#999" }
-                isDisabled={!groupName.length}
-                className="!mt-[10px] h-[35px] leading-3"
-                onClick={handlePublish}
-              >
-                Submit
-              </Button>
+              <CreateOrder price={price} onSuccess={() => toast.success('Success')} objectName={activeObject.name} id={activeObject.id} groupId={activeObject.groupId}>
+                <Button
+                  variant="grayPrimary"
+                  fontSize="sm"
+                  paddingX={6}
+                  color={price.length ? "#fff" : "#999" }
+                  isDisabled={!price.length}
+                  className="!mt-[10px] h-[35px] leading-3"
+                  // onClick={handlePublish}
+                >
+                  Submit
+                </Button>
+              </CreateOrder>
             </Box>
           </Flex>
       </BaseModal>

@@ -30,52 +30,11 @@ export const useStore = create<AppState>()((set) => ({
 	buckets: [],
 	setBuckets: (bucket: IBucket) => set(({ buckets }) => ({ buckets: [...buckets, bucket]})),
 	groups: [
-    { key: uuidv4(), name: 'data', description: '', type: 'bucket',
+    { key: '81', name: 'knexus', id: '81', description: '', type: 'bucket',
       children: [
-        { name: 'data', key: uuidv4(), description: 'data des', type: 'data' },
-        { name: 'data2', key: uuidv4(), description: 'data des', type: 'data' },
-        { name: 'data3', key: uuidv4(), description: 'data des', type: 'data' },
-        { name: 'data4', key: uuidv4(), description: 'data des', type: 'data' },
-        { name: 'data5', key: uuidv4(), description: 'data des', type: 'data' },
+        { name: 'lens1.csv', key: '280', id: '280', groupId: '81', description: '', type: 'data' },
       ]
     },
-    { key: uuidv4(), name: 'data', description: '', type: 'bucket',
-      children: [
-        { name: 'data', key: uuidv4(), description: 'data des', type: 'data' },
-        { name: 'data2', key: uuidv4(), description: 'data des', type: 'data' },
-        { name: 'data3', key: uuidv4(), description: 'data des', type: 'data' },
-        { name: 'data4', key: uuidv4(), description: 'data des', type: 'data' },
-        { name: 'data5', key: uuidv4(), description: 'data des', type: 'data' },
-      ]
-    },
-    { key: uuidv4(), name: 'data', description: '', type: 'bucket',
-      children: [
-        { name: 'data', key: uuidv4(), description: 'data des', type: 'data' },
-        { name: 'data2', key: uuidv4(), description: 'data des', type: 'data' },
-        { name: 'data3', key: uuidv4(), description: 'data des', type: 'data' },
-        { name: 'data4', key: uuidv4(), description: 'data des', type: 'data' },
-        { name: 'data5', key: uuidv4(), description: 'data des', type: 'data' },
-      ]
-    },
-    { key: uuidv4(), name: 'data', description: '', type: 'bucket',
-      children: [
-        { name: 'data', key: uuidv4(), description: 'data des', type: 'data' },
-        { name: 'data2', key: uuidv4(), description: 'data des', type: 'data' },
-        { name: 'data3', key: uuidv4(), description: 'data des', type: 'data' },
-        { name: 'data4', key: uuidv4(), description: 'data des', type: 'data' },
-        { name: 'data5', key: uuidv4(), description: 'data des', type: 'data' },
-      ]
-    },
-    { key: uuidv4(), name: 'data', description: '', type: 'bucket',
-      children: [
-        { name: 'data', key: uuidv4(), description: 'data des', type: 'data' },
-        { name: 'data2', key: uuidv4(), description: 'data des', type: 'data' },
-        { name: 'data3', key: uuidv4(), description: 'data des', type: 'data' },
-        { name: 'data4', key: uuidv4(), description: 'data des', type: 'data' },
-        { name: 'data5', key: uuidv4(), description: 'data des', type: 'data' },
-      ]
-    },
-    { key: uuidv4(), name: 'bucket2', description: '', type: 'bucket', }
   ],
 	setGroups: (group: IGroup) => set(({ groups }) => ({ groups: [...groups, group]})),
 	comModalOpen: false,
