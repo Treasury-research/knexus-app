@@ -7,8 +7,11 @@ import Exclude1 from '../../../public/images/exclude1.svg'
 import Exclude2 from '../../../public/images/exclude2.svg'
 import Exclude3 from '../../../public/images/exclude3.svg'
 import Editor from "@monaco-editor/react";
-import { Center, Table, TableCaption, TableContainer, Tbody, Td, Tfoot, Th, Thead, Tr } from '@chakra-ui/react'
+import { Button, Table, Flex, TableContainer, Tbody, Td, Box, Th, Thead, Tr } from '@chakra-ui/react'
 import Loading from '@/components/Loading'
+import { useStore } from '@/lib/store'
+import { BaseModal } from '@/components/BaseModal'
+import { CreateBucket } from '@/components/bucket/create'
 
 const setEditorTheme = (monaco: any) => {
   monaco.editor.defineTheme("spx-dark", {
@@ -115,6 +118,8 @@ const dataList = [
 ]
 
 export default function ConstructAssignment() {
+  const { setComModalOpen, comModalOpen, groupModalOpen, setGroupModalOpen } = useStore()
+  const [bucketName, setBucketName] = useState("")
   const [demand, setDemand] = useState('')
   const [runSqlLoding, setRunSqlLoding] = useState(false);
   const [fetchTableDataLoading, setFetchTableDataLoading] = useState(false);
@@ -136,9 +141,10 @@ export default function ConstructAssignment() {
     [],
   )
 
-  const handleChange = useCallback(
-    (e: any) => {
-      setDemand(e.target.value);
+  const handleRun = useCallback(
+    () => {
+      // setDemand(e.target.value);
+      setComModalOpen(true);
     },
     [],
   )
@@ -207,12 +213,42 @@ export default function ConstructAssignment() {
                     </Tbody>
                   </Table>
                 </TableContainer>
-                <button className='bg-[#373737] px-8 py-1 rounded self-end mt-4'>Run</button>
+                <button className='bg-[#373737] px-8 py-1 rounded self-end mt-4' onClick={() => handleRun()}>Run</button>
               </>
             }
 					</div>
 				</div>
       </div>
+      {/* create bucket */}
+      <BaseModal isOpen={comModalOpen}
+        onClose={() => setComModalOpen(false)}>
+          <Flex w="full" justifyContent="space-between" flexDirection="column">
+            <div className='mt-[20px] lg:w-[400px] sm:w-[300px]'>
+              <h3>Bucket Name</h3>
+              <input
+                type="text"
+                placeholder="Please enter"
+                className="my-6 text-[#000] w-full h-[35px] bg-[#A0A79F] font-swiss721md border-0 block"
+                value={bucketName}
+                onChange={(e) => setBucketName(e.target.value)}
+              />
+              <p className='font-jura text-sm ml-2'>No Bucket has been created for your account.</p>
+            </div>
+            <Box mt={5} textAlign="right">
+              <CreateBucket bucketName={bucketName}>
+                <Button
+                  variant="grayPrimary"
+                  fontSize="sm"
+                  paddingX={6}
+                  color={bucketName.length ? "#fff" : "#999" }
+                  className="!mt-[10px] h-[35px] leading-3"
+                >
+                  Submit
+                </Button>
+              </CreateBucket>
+            </Box>
+          </Flex>
+      </BaseModal>
     </>
   )
 }

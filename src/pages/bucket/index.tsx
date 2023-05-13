@@ -16,21 +16,24 @@ import type { ColumnsType } from 'antd/es/table';
 export default function Home() {
   const {address} = useAccount();
   const { setComModalOpen, comModalOpen, groupModalOpen, setGroupModalOpen } = useStore()
+  const [uploadModalOpen, setUploadModalOpen] = useState(false)
+  const [dataName, setDataName] = useState("")
+  const [dataDescription, setDataDescription] = useState("")
   const [bucketName, setBucketName] = useState("")
   const [loading, setLoading] = useState(false)
   const [groupName, setGroupName] = useState("")
   // const [checkStrictly, setCheckStrictly] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 	const [bucketDatas, setBucketDatas] = useState([
-    // { key: uuidv4(), name: 'bucket', description: '',
-    // children: [
-    //     { name: 'data', key: uuidv4(), description: 'data des' },
-    //     { name: 'data2', key: uuidv4(), description: 'data des' },
-    //     { name: 'data3', key: uuidv4(), description: 'data des' },
-    //     { name: 'data4', key: uuidv4(), description: 'data des' },
-    //     { name: 'data5', key: uuidv4(), description: 'data des' },
-    //   ]
-    // },
+    { key: uuidv4(), name: 'bucket', description: '', type: 'bucket',
+    children: [
+        { name: 'data', key: uuidv4(), description: 'data des', type: 'data' },
+        { name: 'data2', key: uuidv4(), description: 'data des', type: 'data' },
+        { name: 'data3', key: uuidv4(), description: 'data des', type: 'data' },
+        { name: 'data4', key: uuidv4(), description: 'data des', type: 'data' },
+        { name: 'data5', key: uuidv4(), description: 'data des', type: 'data' },
+      ]
+    },
   ])
   // create bucket
 	const handleSubmit = async () => { 
@@ -51,6 +54,10 @@ export default function Home() {
     console.log(`selected ${value}`);
   };
 
+  const handleUpload = () => {
+    // TODO:
+    setUploadModalOpen(false);
+  }
 
   interface DataType {
     key: string;
@@ -97,7 +104,7 @@ export default function Home() {
         return (
           <div className='flex justify-end'>
             <Space size="large" className='mr-4'>
-              { record.type === "bucket" ? <a className='text-[#BBE7E6] font-bold'>Upload</a> : null }
+              { record.type === "bucket" ? <a className='text-[#BBE7E6] font-bold' onClick={() => setUploadModalOpen(true)}>Upload</a> : null }
               { record.type === "data" ? <>
                 <a className='text-[#BBE7E6] font-bold' onClick={() => setGroupModalOpen(true)}>Bind Group</a>
                 <a className='text-[#BBE7E6] font-bold' href="">Download</a></> : 
@@ -127,7 +134,7 @@ export default function Home() {
     }))
    }
 
-   setBucketDatas(buckets)
+  //  setBucketDatas(buckets)
    setLoading(false);
   }
 
@@ -259,6 +266,40 @@ export default function Home() {
               color={groupName.length ? "#fff" : "#999" }
               className="!mt-[10px] h-[35px] leading-3"
               onClick={handleCreateGroup}
+            >
+              Submit
+            </Button>
+          </Box>
+        </Flex>
+      </BaseModal>
+      <BaseModal isOpen={uploadModalOpen} onClose={() => setUploadModalOpen(false)}>
+        <Flex w="full" justifyContent="space-between" flexDirection="column">
+          <div className='mt-[20px] lg:w-[400px] sm:w-[300px]'>
+            <h3>Data Name</h3>
+            <input
+              type="text"
+              placeholder="Please enter"
+              className="my-6 text-[#000] w-full h-[35px] bg-[#A0A79F] font-swiss721md border-0 block"
+              value={groupName}
+              onChange={(e) => setDataName(e.target.value)}
+            />
+            <h3>Data Description</h3>
+            <input
+              type="text"
+              placeholder="Please enter"
+              className="my-6 text-[#000] w-full h-[35px] bg-[#A0A79F] font-swiss721md border-0 block"
+              value={groupName}
+              onChange={(e) => setDataDescription(e.target.value)}
+            />
+          </div>
+          <Box mt={5} textAlign="right">
+            <Button
+              variant="grayPrimary"
+              fontSize="sm"
+              paddingX={6}
+              color={groupName.length ? "#fff" : "#999" }
+              className="!mt-[10px] h-[35px] leading-3"
+              onClick={handleUpload}
             >
               Submit
             </Button>
