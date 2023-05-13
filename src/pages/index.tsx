@@ -68,15 +68,15 @@ export default function Home() {
       </Head>
       <div style={{ width: '80%', margin: '0 auto'}}>
         <div className='w-full'>
-          <div className='2xl:h-[800px] flex justify-center 2xl:min-h-[600px] xl:min-h-[500px] lg:min-h-[500px] md:min-h-[400px] 2xl:items-center sm:items-stretch'>
+          <div className='2xl:h-[800px] sm:flex sm:justify-center 2xl:min-h-[600px] xl:min-h-[500px] lg:min-h-[400px] md:min-h-[300px] 2xl:items-center sm:items-stretch'>
             <div className='flex-1 items-stretch 2xl:mr-20 xl:mr-15 lg:mr-10 md:mr-5 sm:mr-2'>
               <h1 className='text-[#BBE7E6] 2xl:text-7xl xl:text-5xl lg:text-4xl md:text-3xl sm:text-2xl font-bold'>Turn your data into its real value.</h1>
-              <p className='2xl:text-4xl xl:text-3xl lg:text-2xl md:text-xl sm:text-base w-10/12 2xl:my-8 xl:my-6 lg:my-4 md:my-3 sm:my-2 font-bold'>Empower your Web3 journey with agile and intelligent services</p>
+              <p className='my-2 2xl:text-4xl xl:text-3xl lg:text-2xl md:text-xl sm:text-base w-10/12 2xl:my-8 xl:my-6 lg:my-4 md:my-3 font-bold'>Empower your Web3 journey with agile and intelligent services</p>
               <button className='bg-white text-[#000] md:py-2 md:px-4 sm:py-1 sm:px-3 font-bold lg:text-xl md:text-md sm:text-sm' onClick={() => router.push('/login')}>
                 Get Started
               </button>
             </div>
-            <div className='w-5/12 flex-1'>
+            <div className='sm:w-5/12 flex-1 sm:my-0 my-10'>
               <Carousel autoplay>
                 <div>
                   <Image src={nav1} alt='nav1' />
@@ -87,7 +87,7 @@ export default function Home() {
               </Carousel>
             </div>
           </div>
-          <section>
+          <section className='sm:mt-20 md:mt-0'>
             <h2 className='2xl:my-8 xl:py-6 lg:py-6 md:py-6 sm:py-1 text-[#BBE7E6] 2xl:text-7xl xl:text-5xl lg:text-4xl md:text-3xl sm:text-2xl font-bold'>How It works</h2>
             <p className='2xl:text-3xl xl:text-2xl lg:text-2xl md:text-xl sm:text-base' style={{lineHeight: 1.3}}>By leveraging web3 technology, KNexus is able to provide a decentralized and transparent platform for data monetization. Users can maintain control over their data and receive fair compensation for their contributions, while buyers can access high-quality data content whether on-chain data reports or AIGC prompts to enhance their own projects. Whether you're a creator or a buyer, KNexus offers a unique opportunity to participate in the exciting world of web3 data monetization.</p>
           </section>
@@ -118,7 +118,7 @@ export default function Home() {
             <p className='mt-10 text-[#999]'>Email</p>
             <p className='text-[#999]'>xxx@knn3.xyz</p>
           </div>
-          <div className='flex flex-row items-center'>
+          <div className='flex flex-row items-center flex-wrap justify-end'>
             <div className="mx-3 self-start">
               <Link href="/bucket" className={`${router.pathname === "/bucket" ? "text-[#BBE7E6]" : ""}`}>Bucket</Link>
             </div>
@@ -132,7 +132,7 @@ export default function Home() {
         </div>
         <div style={{ width: '80%', margin: '0 auto', borderTop: '1px solid #3e3e3e'}} className='text-center text-sm py-10 relative'>
           ©2023 by Transformer. All rights reserved.
-          <div className='flex md:absolute right-0 top-8 sm:justify-center sm:mt-2'>
+          <div className='flex md:absolute right-0 top-8 mt-4 md:mt-0 sm:m-auto sm:text-center sm:justify-center justify-center'>
             <Link href="https://twitter.com/Knn3Network" target="_blank" className='mx-1'><AiOutlineTwitter className='text-2xl' /></Link>
             <Link href="https://discord.com/invite/UKzFVpHk4J" target="_blank" className='mx-1'><BsDiscord className='text-2xl' /></Link>
             <Link href="https://t.me/+sgKwY295lKA1MWM1" target="_blank" className='mx-1'><SiTelegram className='text-2xl' /></Link>
