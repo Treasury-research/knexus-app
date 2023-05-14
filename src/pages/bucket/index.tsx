@@ -99,7 +99,7 @@ export default function Home() {
       title: '操作',
       dataIndex: 'options',
       key: 'options',
-      render: (text, record) => {
+      render: (text, record:any) => {
         console.log(record);
         return (
           <div className='flex justify-end'>
@@ -107,7 +107,7 @@ export default function Home() {
               {
             record.type === "data" && <>
                 <a className='text-[#BBE7E6] font-bold' onClick={() => setGroupModalOpen(true)}>Bind Group</a>
-                <a className='text-[#BBE7E6] font-bold' onClick={() => doDownload(record.bucketName, record.name)}>Download</a></>
+                <a className='text-[#BBE7E6] font-bold' onClick={() => doDownload(record?.bucketName, record.name)}>Download</a></>
               }
 
               {/* { record.type === "bucket" ? <a className='text-[#BBE7E6] font-bold' onClick={() => setUploadModalOpen(true)}>Upload</a> : null }
@@ -211,7 +211,7 @@ export default function Home() {
               </Button>
             </div>
             <div style={{ maxHeight: `calc(100vh - 320px)`, overflow: 'auto'}}>
-              { bucketDatas.map((item, index) => {
+              { bucketDatas.map((item:any, index) => {
                 return <div key={index} className='mb-6 overflow-auto'>
                   <Table
                     pagination={false}

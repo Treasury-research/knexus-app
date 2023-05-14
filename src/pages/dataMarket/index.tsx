@@ -357,7 +357,7 @@ export default function Datamarket() {
               <div className="w-11/12 mx-auto">
                 {activeMenu === "myPublish" ? (
                   <Table
-                    columns={columnsSubtree("Unlist",)}
+                    columns={columnsSubtree("Unlist") as any}
                     scroll={{ y: 600 }}
                     pagination={false}
                     // expandable={{
@@ -385,7 +385,7 @@ export default function Datamarket() {
                 ) : null}
                 {activeMenu === "myPurchase" ? (
                   <Table
-                    columns={columnsSubtree('Download')}
+                    columns={columnsSubtree('Download') as any}
                     scroll={{ y: 600 }}
                     pagination={false}
                     // expandable={{
@@ -413,7 +413,7 @@ export default function Datamarket() {
                 ) : null}
                 {activeMenu === "publicList" ? (
                   <Table
-                    columns={columnsSubtree('Buy')}
+                    columns={columnsSubtree('Buy') as any}
                     scroll={{ y: 600 }}
                     pagination={false}
                     // expandable={{
