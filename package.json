@@ -7,7 +7,7 @@
     "dev:qa": "cross-env NODE_ENV=test next dev",
     "build": "cross-env NODE_ENV=development next build",
     "build:qa": "cross-env NODE_ENV=test next build",
-    "start": "next start",
+    "start": "next start --port 7003",
     "lint": "next lint"
   },
   "dependencies": {
