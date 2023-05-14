@@ -119,7 +119,7 @@ Save on API costs.</p>
           <div  className='flex flex-col border-b-stone-600'>
             <h2 className='text-[#fff] 2xl:text-3xl xl:text3xl lg:text-3xl md:text-2xl sm:text-2xl font-bold'>KNexus</h2>
             <p className='mt-10 text-[#999]'>Email</p>
-            <p className='text-[#999]'>xxx@knn3.xyz</p>
+            <p className='text-[#999]'>builder@knn3.xyz</p>
           </div>
           <div className='flex flex-row items-center flex-wrap justify-end'>
             <div className="mx-3 self-start">
