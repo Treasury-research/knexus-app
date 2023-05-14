@@ -3,7 +3,6 @@ import ufo from '../../../public/images/ufo.png';
 import Head from "next/head";
 import Image from "next/image";
 import { v4 as uuidv4 } from 'uuid';
-import { CreateBucket } from '@/components/bucket/create';
 import { getBucketList, getObjectList, doDownload } from '@/client';
 import {useAccount} from 'wagmi'
 import { Space, Table, Empty } from 'antd'
@@ -248,7 +247,6 @@ export default function Home() {
               <p className='font-jura text-sm ml-2'>No Bucket has been created for your account.</p>
             </div>
             <Box mt={5} textAlign="right">
-              <CreateBucket bucketName={bucketName}>
                 <Button
                   variant="grayPrimary"
                   fontSize="sm"
@@ -258,7 +256,6 @@ export default function Home() {
                 >
                   Submit
                 </Button>
-              </CreateBucket>
             </Box>
           </Flex>
       </BaseModal>

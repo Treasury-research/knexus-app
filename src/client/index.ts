@@ -1,47 +1,47 @@
 import { GRPC_URL } from "@/config";
-import { makeRpcClient } from "@bnb-chain/greenfield-chain-sdk";
+// import { makeRpcClient } from "@bnb-chain/greenfield-chain-sdk";
 import Long from "long";
 import axios from "axios";
-import { QueryClientImpl as spQueryClientImpl } from "@bnb-chain/greenfield-cosmos-types/greenfield/sp/query";
-import { QueryClientImpl as storageQueryClientImpl } from "@bnb-chain/greenfield-cosmos-types/greenfield/storage/query";
+// import { QueryClientImpl as spQueryClientImpl } from "@bnb-chain/greenfield-cosmos-types/greenfield/sp/query";
+// import { QueryClientImpl as storageQueryClientImpl } from "@bnb-chain/greenfield-cosmos-types/greenfield/storage/query";
 
-export const getSpStoragePriceByTime = async () => {
-  const rpcClient = await makeRpcClient(GRPC_URL);
+// export const getSpStoragePriceByTime = async () => {
+//   const rpcClient = await makeRpcClient(GRPC_URL);
 
-  const rpc = new spQueryClientImpl(rpcClient);
-  const res = await rpc.QueryGetSpStoragePriceByTime({
-    spAddr: "0xA4187E64dD484ce8Fe102bfAf498c884Df37cF7b",
-    timestamp: Long.fromNumber(1678772331382),
-  });
-  return res;
-};
+//   const rpc = new spQueryClientImpl(rpcClient);
+//   const res = await rpc.QueryGetSpStoragePriceByTime({
+//     spAddr: "0xA4187E64dD484ce8Fe102bfAf498c884Df37cF7b",
+//     timestamp: Long.fromNumber(1678772331382),
+//   });
+//   return res;
+// };
 
-export const getStorageProviders = async () => {
-  const rpcClient = await makeRpcClient(GRPC_URL);
+// export const getStorageProviders = async () => {
+//   const rpcClient = await makeRpcClient(GRPC_URL);
 
-  const rpc = new spQueryClientImpl(rpcClient);
-  const res = await rpc.StorageProviders({
-    pagination: undefined,
-  });
-  console.log(res.sps.map((t) => t.operatorAddress));
-  return res;
-};
+//   const rpc = new spQueryClientImpl(rpcClient);
+//   const res = await rpc.StorageProviders({
+//     pagination: undefined,
+//   });
+//   console.log(res.sps.map((t) => t.operatorAddress));
+//   return res;
+// };
 
-export const getBucketInfo = async (rpcUrl: string, bucketName: string) => {
-  const rpcClient = await makeRpcClient(rpcUrl);
+// export const getBucketInfo = async (rpcUrl: string, bucketName: string) => {
+//   const rpcClient = await makeRpcClient(rpcUrl);
 
-  const rpc = new storageQueryClientImpl(rpcClient);
-  const bucketInfoRes = await rpc.HeadBucket({
-    bucketName,
-  });
+//   const rpc = new storageQueryClientImpl(rpcClient);
+//   const bucketInfoRes = await rpc.HeadBucket({
+//     bucketName,
+//   });
 
-  const bucketId = bucketInfoRes?.bucketInfo?.id;
-  if (!bucketId) throw new Error("no such bucket");
+//   const bucketId = bucketInfoRes?.bucketInfo?.id;
+//   if (!bucketId) throw new Error("no such bucket");
 
-  return await rpc.HeadBucketById({
-    bucketId,
-  });
-};
+//   return await rpc.HeadBucketById({
+//     bucketId,
+//   });
+// };
 
 export const getBucketList = async (userAddress: `0x${string}` = "0x") => {
   const res = await axios.get(`https://gnfd-testnet-sp-6.bnbchain.org`, {
@@ -114,22 +114,22 @@ export const getApproval = async (
   return signedMsg;
 };
 
-export const getObjectInfo = async (
-  rpcUrl: string,
-  bucketName: string,
-  objectName: string
-) => {
-  const rpcClient = await makeRpcClient(rpcUrl);
-  const rpc = new storageQueryClientImpl(rpcClient);
-  const objInfoRes = await rpc.HeadObject({
-    bucketName,
-    objectName,
-  });
+// export const getObjectInfo = async (
+//   rpcUrl: string,
+//   bucketName: string,
+//   objectName: string
+// ) => {
+//   const rpcClient = await makeRpcClient(rpcUrl);
+//   const rpc = new storageQueryClientImpl(rpcClient);
+//   const objInfoRes = await rpc.HeadObject({
+//     bucketName,
+//     objectName,
+//   });
 
-  const objectId = objInfoRes?.objectInfo?.id;
-  if (!objectId) throw new Error("no such object");
+//   const objectId = objInfoRes?.objectInfo?.id;
+//   if (!objectId) throw new Error("no such object");
 
-  return await rpc.HeadObjectById({
-    objectId,
-  });
-};
+//   return await rpc.HeadObjectById({
+//     objectId,
+//   });
+// };

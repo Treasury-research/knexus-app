@@ -23,7 +23,6 @@ import {
 import Loading from "@/components/Loading";
 import { useStore } from "@/lib/store";
 import { BaseModal } from "@/components/BaseModal";
-import { CreateBucket } from "@/components/bucket/create";
 
 const setEditorTheme = (monaco: any) => {
   monaco.editor.defineTheme("spx-dark", {
@@ -318,7 +317,6 @@ export default function ConstructAssignment() {
             </p>
           </div>
           <Box mt={5} textAlign="right">
-            <CreateBucket bucketName={bucketName}>
               <Button
                 variant="grayPrimary"
                 fontSize="sm"
@@ -332,7 +330,6 @@ export default function ConstructAssignment() {
               >
                 Submit
               </Button>
-            </CreateBucket>
           </Box>
         </Flex>
       </BaseModal>
