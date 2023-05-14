@@ -2,8 +2,8 @@ import { useIsMounted } from '@/hooks/useIsMounted';
 import { Carousel, Tabs, TabsProps } from 'antd';
 import Head from 'next/head';
 import Link from 'next/link';
-import nav1 from '../../public/images/intro/nav1.svg'
-import nav2 from '../../public/images/intro/nav2.svg'
+import nav1 from '../../public/images/intro/nav1.png'
+import nav2 from '../../public/images/intro/nav2.png'
 import Image from 'next/image'
 import { useRouter } from 'next/router';
 import { AiOutlineTwitter, AiFillMediumCircle } from 'react-icons/ai'
@@ -47,11 +47,11 @@ export default function Home() {
             <li>Price your data to receive the real value to your wallet!</li>
           </ul>
         </li>
-        <li>I’m a prompt engineer:
+        <li>I’m a prompts engineer:
           <ul className='list-disc ml-8'>
-            <li>Submit your prompt to trusted AIGC platforms such as Midjourney through KNexus</li>
-            <li>Generate content using the AIGC prompt</li>
-            <li>Use the generated content and prompt to mint an NFT under the KNexus NFT protocol</li>
+            <li>Submit your prompts to trusted AIGC platforms such as Midjourney through KNexus</li>
+            <li>Generate content using the AIGC prompts</li>
+            <li>Use the generated content and prompts to mint an NFT under the KNexus NFT protocol</li>
             <li>List your NFT on the KNexus platform to receive the real value directly to your wallet!</li>
           </ul>
         </li>
@@ -71,7 +71,8 @@ export default function Home() {
           <div className='2xl:h-[800px] sm:flex sm:justify-center 2xl:min-h-[600px] xl:min-h-[500px] lg:min-h-[400px] md:min-h-[300px] 2xl:items-center sm:items-stretch'>
             <div className='flex-1 items-stretch 2xl:mr-20 xl:mr-15 lg:mr-10 md:mr-5 sm:mr-2'>
               <h1 className='text-[#BBE7E6] 2xl:text-7xl xl:text-5xl lg:text-4xl md:text-3xl sm:text-2xl font-bold'>Turn your data into its real value.</h1>
-              <p className='my-2 2xl:text-4xl xl:text-3xl lg:text-2xl md:text-xl sm:text-base w-10/12 2xl:my-8 xl:my-6 lg:my-4 md:my-3 font-bold'>Empower your Web3 journey with agile and intelligent services</p>
+              <p className='my-2 2xl:text-4xl xl:text-3xl lg:text-2xl md:text-xl sm:text-base w-10/12 2xl:my-8 xl:my-6 lg:my-4 md:my-3 font-bold'>Find out the data you need without programming, Sell your own work or prompts.
+Save on API costs.</p>
               <button className='bg-white text-[#000] md:py-2 md:px-4 sm:py-1 sm:px-3 font-bold lg:text-xl md:text-md sm:text-sm' onClick={() => router.push('/login')}>
                 Get Started
               </button>
@@ -89,7 +90,9 @@ export default function Home() {
           </div>
           <section className='sm:mt-20 md:mt-0'>
             <h2 className='2xl:my-8 xl:py-6 lg:py-6 md:py-6 sm:py-1 text-[#BBE7E6] 2xl:text-7xl xl:text-5xl lg:text-4xl md:text-3xl sm:text-2xl font-bold'>How It works</h2>
-            <p className='2xl:text-3xl xl:text-2xl lg:text-2xl md:text-xl sm:text-base' style={{lineHeight: 1.3}}>By leveraging web3 technology, KNexus is able to provide a decentralized and transparent platform for data monetization. Users can maintain control over their data and receive fair compensation for their contributions, while buyers can access high-quality data content whether on-chain data reports or AIGC prompts to enhance their own projects. Whether you're a creator or a buyer, KNexus offers a unique opportunity to participate in the exciting world of web3 data monetization.</p>
+            <p className='2xl:text-3xl xl:text-2xl lg:text-2xl md:text-xl sm:text-base' style={{lineHeight: 1.3}}>
+              KNexus uses web3 tech to create a fair and transparent platform for data monetization. Users control their data and earn money, while buyers access high-quality data and prompts. Join KNexus to be part of the web3 data monetization world.
+            </p>
           </section>
           <section className='my-20'>
             <Tabs defaultActiveKey="1" items={items} />
